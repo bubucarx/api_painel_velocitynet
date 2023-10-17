@@ -3,7 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const fs = require("fs");
+const path = require("path");
 const app = express();
 
 app.use(express.json());
@@ -39,6 +40,45 @@ app.post("/slider", checkToken, upload.single("foto"), async (req, res) => {
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });
   }
+});
+
+app.get("/listar-imagens", (req, res) => {
+  const pastaUploads = path.join(__dirname, "uploads");
+  const imagens = [];
+  const host = "http://localhost:3000/uploads";
+
+  fs.readdir(pastaUploads, (err, files) => {
+    if (err) {
+      return res.status(500).send("Erro ao listar imagens");
+    }
+
+    files.forEach((file) => {
+      if (
+        file.endsWith(".jpg") ||
+        file.endsWith(".png") ||
+        file.endsWith(".jpeg")
+      ) {
+        imagens.push(`${host}/${file}`);
+      }
+    });
+
+    res.status(200).json(imagens);
+  });
+});
+
+app.get("/uploads/:nomeDoArquivo", (req, res) => {
+  const pastaUploads = path.join(__dirname, "uploads");
+  const nomeDoArquivo = req.params.nomeDoArquivo;
+
+  const caminhoDoArquivo = path.join(pastaUploads, nomeDoArquivo);
+
+  fs.access(caminhoDoArquivo, fs.constants.F_OK, (err) => {
+    if (err) {
+      return res.status(404).send("Imagem não encontrada");
+    }
+
+    res.sendFile(caminhoDoArquivo);
+  });
 });
 
 function checkToken(req, res, next) {
