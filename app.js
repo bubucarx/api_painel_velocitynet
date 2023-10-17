@@ -8,39 +8,37 @@ const app = express();
 
 app.use(express.json());
 
-const User = require("./models/User");
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.status(200).json({ msg: "Bem vindo a nossa api!" });
+const User = require("./src/models/User");
+
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    const novoNomeArquivo = file.originalname;
+
+    cb(null, `${novoNomeArquivo}`);
+  },
 });
 
-app.post("/login", async (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+const upload = multer({ storage });
 
-  if (!token) {
-    return res.status(401).json({ msg: "acesso negado" });
+app.post("/slider", checkToken, upload.single("foto"), async (req, res) => {
+  const file = req.file;
+
+  if (!file) {
+    res.status(422).json({ msg: "Imagem inválida" });
   }
 
   try {
-    const secret = process.env.SECRET;
-    decode = jwt.verify(token, secret);
-    res.status(200).json(decode);
-    // next();
+    res.status(200).json({ msg: "Imagem salva" });
   } catch (error) {
-    res.status(400).json({ msg: "Token inválido" });
+    res.status(500).json({ msg: "Erro no servidor" });
   }
-});
-
-app.get("/user/:id", checkToken, async (req, res) => {
-  const id = req.params.id;
-  const user = await User.findById(id, "-password");
-
-  if (!user) {
-    return res.status(404).json({ msg: "Usuário náo encontrado" });
-  }
-
-  res.status(200).json(user);
 });
 
 function checkToken(req, res, next) {
@@ -59,6 +57,27 @@ function checkToken(req, res, next) {
     res.status(400).json({ msg: "Token inválido" });
   }
 }
+
+app.get("/", (req, res) => {
+  res.status(200).json({ msg: "Bem vindo a nossa api!" });
+});
+
+app.post("/login", async (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ msg: "acesso negado" });
+  }
+
+  try {
+    const secret = process.env.SECRET;
+    decode = jwt.verify(token, secret);
+    res.status(200).json(decode);
+  } catch (error) {
+    res.status(400).json({ msg: "Token inválido" });
+  }
+});
 
 app.post("/auth/register", async (req, res) => {
   const { email, password } = req.body;
