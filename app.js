@@ -14,6 +14,24 @@ app.get("/", (req, res) => {
   res.status(200).json({ msg: "Bem vindo a nossa api!" });
 });
 
+app.post("/login", async (req, res) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ msg: "acesso negado" });
+  }
+
+  try {
+    const secret = process.env.SECRET;
+    decode = jwt.verify(token, secret);
+    res.status(200).json(decode);
+    // next();
+  } catch (error) {
+    res.status(400).json({ msg: "Token inválido" });
+  }
+});
+
 app.get("/user/:id", checkToken, async (req, res) => {
   const id = req.params.id;
   const user = await User.findById(id, "-password");
@@ -90,6 +108,7 @@ app.post("/auth/login", async (req, res) => {
     const token = jwt.sign(
       {
         id: user._id,
+        email: user.email,
       },
       secret
     );
