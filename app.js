@@ -30,6 +30,8 @@ app.post("/card-title", cardController.cardTitleSectionCreate);
 
 app.get("/card-title", cardController.cardTitleSectionFind);
 
+app.patch("/card-title", cardController.cardTitleSectionUpdate);
+
 mongoose
   .connect("mongodb://localhost:27017/")
   .then(() => {

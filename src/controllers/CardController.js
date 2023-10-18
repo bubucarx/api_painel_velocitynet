@@ -24,3 +24,16 @@ exports.cardTitleSectionFind = async (req, res) => {
     res.status(500).json({ msg: "Error no servidor" });
   }
 };
+
+exports.cardTitleSectionUpdate = async (req, res) => {
+  const { id, name } = req.body;
+
+  try {
+    await CardSectionTitle.updateOne({ _id: id }, { $set: { name: name } });
+    res.status(200).json({
+      msg: "Title da seção card alterado com sucesso",
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor" });
+  }
+};
