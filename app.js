@@ -8,6 +8,8 @@ const upload = multer({ storage });
 const checkToken = require("./src/middleware/checktoken");
 const sliderController = require("./src/controllers/sliderController");
 const loginController = require("./src/controllers/loginController");
+const cardController = require("./src/controllers/CardController.js");
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -24,10 +26,14 @@ app.post("/login", loginController.login);
 
 app.post("/auth/register", loginController.authRegister);
 
+app.post("/card-title", cardController.cardTitleSectionCreate);
+
+app.get("/card-title", cardController.cardTitleSectionFind);
+
 mongoose
   .connect("mongodb://localhost:27017/")
   .then(() => {
     app.listen(3000);
     console.log("Conectado ao banco");
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.log("Erro para se conectar no banco"));
