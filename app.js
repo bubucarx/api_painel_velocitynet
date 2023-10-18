@@ -8,7 +8,7 @@ const upload = multer({ storage });
 const checkToken = require("./src/middleware/checktoken");
 const sliderController = require("./src/controllers/sliderController");
 const loginController = require("./src/controllers/loginController");
-const cardController = require("./src/controllers/CardController.js");
+const cardController = require("./src/controllers/cardController");
 
 app.use(express.json());
 
