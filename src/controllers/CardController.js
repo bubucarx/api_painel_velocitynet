@@ -1,4 +1,5 @@
 const CardSectionTitle = require("../models/CardSectionTitle");
+const Card = require("../models/Card");
 
 exports.cardTitleSectionCreate = async (req, res) => {
   const { name } = req.body;
@@ -35,5 +36,59 @@ exports.cardTitleSectionUpdate = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor" });
+  }
+};
+
+exports.card = async (req, res) => {
+  const { name, description, logo } = req.body;
+
+  const card = new Card({
+    name: name,
+    description: description,
+    logo: logo,
+  });
+
+  try {
+    await card.save();
+    res.status(200).json({ msg: "Card salvo com sucesso" });
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor" });
+  }
+};
+
+exports.cardFind = async (req, res) => {
+  const cards = await Card.find();
+
+  try {
+    res.status(200).json(cards);
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor" });
+  }
+};
+
+exports.cardUpdate = async (req, res) => {
+  const { id, name, description, logo } = req.body;
+
+  try {
+    await Card.updateOne(
+      { _id: id },
+      { $set: { name: name, description: description, logo: logo } }
+    );
+    res.status(200).json({
+      msg: "Card alterado com sucesso",
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor" });
+  }
+};
+
+exports.cardDelete = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    await Card.deleteOne({ _id: id });
+    res.status(200).json({ msg: "Card deletado com sucesso" });
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor " });
   }
 };

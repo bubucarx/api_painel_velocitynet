@@ -24,6 +24,8 @@ app.post("/slider", checkToken, upload.single("foto"), sliderController.slider);
 
 app.post("/login", loginController.login);
 
+app.post("/auth/login", loginController.authLogin);
+
 app.post("/auth/register", loginController.authRegister);
 
 app.post("/card-title", cardController.cardTitleSectionCreate);
@@ -31,6 +33,14 @@ app.post("/card-title", cardController.cardTitleSectionCreate);
 app.get("/card-title", cardController.cardTitleSectionFind);
 
 app.patch("/card-title", cardController.cardTitleSectionUpdate);
+
+app.post("/card", cardController.card);
+
+app.get("/card", cardController.cardFind);
+
+app.patch("/card", cardController.cardUpdate);
+
+app.delete("/card", cardController.cardDelete);
 
 mongoose
   .connect("mongodb://localhost:27017/")
