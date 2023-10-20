@@ -2,13 +2,18 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+
 const multer = require("multer");
+
 const storage = require("./src/middleware/storage");
+
 const upload = multer({ storage });
+
 const checkToken = require("./src/middleware/checktoken");
 const sliderController = require("./src/controllers/sliderController");
 const loginController = require("./src/controllers/loginController");
 const cardController = require("./src/controllers/cardController");
+const offerController = require("./src/controllers/offerController");
 
 app.use(express.json());
 
@@ -41,6 +46,8 @@ app.get("/card", cardController.cardFind);
 app.patch("/card", cardController.cardUpdate);
 
 app.delete("/card", cardController.cardDelete);
+
+app.post("/offer-image", upload.single("foto"), offerController.offer);
 
 mongoose
   .connect("mongodb://localhost:27017/")
