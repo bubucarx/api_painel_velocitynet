@@ -47,7 +47,11 @@ app.patch("/card", cardController.cardUpdate);
 
 app.delete("/card", cardController.cardDelete);
 
-app.post("/offer-image", upload.single("foto"), offerController.offer);
+app.post("/offer", upload.single("foto"), offerController.offer);
+
+app.patch("/offer", upload.single("foto"), offerController.offerUpdate);
+
+app.delete("/offer", offerController.offerDelete);
 
 mongoose
   .connect("mongodb://localhost:27017/")
