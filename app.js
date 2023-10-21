@@ -14,6 +14,7 @@ const sliderController = require("./src/controllers/sliderController");
 const loginController = require("./src/controllers/loginController");
 const cardController = require("./src/controllers/cardController");
 const offerController = require("./src/controllers/offerController");
+const tvController = require("./src/controllers/tvController");
 
 app.use(express.json());
 
@@ -52,6 +53,14 @@ app.post("/offer", upload.single("foto"), offerController.offer);
 app.patch("/offer", upload.single("foto"), offerController.offerUpdate);
 
 app.delete("/offer", offerController.offerDelete);
+
+app.get("/tv", tvController.tv);
+
+app.post("/tv", upload.single("foto"), tvController.tvCreate);
+
+app.patch("/tv", upload.single("foto"), tvController.tvUpdate);
+
+app.delete("/tv", tvController.tvDelete);
 
 mongoose
   .connect("mongodb://localhost:27017/")
