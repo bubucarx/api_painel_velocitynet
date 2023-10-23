@@ -1,7 +1,17 @@
 const CardSectionTitle = require("../models/CardSectionTitle");
 const Card = require("../models/Card");
 
-exports.cardTitleSectionCreate = async (req, res) => {
+exports.cardTitleSectionGet = async (req, res) => {
+  const cardTitle = await CardSectionTitle.findOne({});
+
+  try {
+    res.status(200).json(cardTitle);
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor" });
+  }
+};
+
+exports.cardTitleSectionPost = async (req, res) => {
   const { name } = req.body;
 
   const cardTitle = new CardSectionTitle({
@@ -16,17 +26,7 @@ exports.cardTitleSectionCreate = async (req, res) => {
   }
 };
 
-exports.cardTitleSectionFind = async (req, res) => {
-  const cardTitle = await CardSectionTitle.findOne({});
-
-  try {
-    res.status(200).json(cardTitle);
-  } catch (error) {
-    res.status(500).json({ msg: "Error no servidor" });
-  }
-};
-
-exports.cardTitleSectionUpdate = async (req, res) => {
+exports.cardTitleSectionPatch = async (req, res) => {
   const { id, name } = req.body;
 
   try {
@@ -39,7 +39,17 @@ exports.cardTitleSectionUpdate = async (req, res) => {
   }
 };
 
-exports.card = async (req, res) => {
+exports.cardGet = async (req, res) => {
+  const cards = await Card.find();
+
+  try {
+    res.status(200).json(cards);
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor" });
+  }
+};
+
+exports.cardPost = async (req, res) => {
   const { name, description, logo } = req.body;
 
   const card = new Card({
@@ -56,17 +66,7 @@ exports.card = async (req, res) => {
   }
 };
 
-exports.cardFind = async (req, res) => {
-  const cards = await Card.find();
-
-  try {
-    res.status(200).json(cards);
-  } catch (error) {
-    res.status(500).json({ msg: "Error no servidor" });
-  }
-};
-
-exports.cardUpdate = async (req, res) => {
+exports.cardPatch = async (req, res) => {
   const { id, name, description, logo } = req.body;
 
   try {

@@ -1,6 +1,6 @@
 const Tv = require("../models/Tv");
 
-exports.tv = async (req, res) => {
+exports.tvGet = async (req, res) => {
   const tv = await Tv.findOne({});
 
   try {
@@ -10,7 +10,7 @@ exports.tv = async (req, res) => {
   }
 };
 
-exports.tvCreate = async (req, res) => {
+exports.tvPost = async (req, res) => {
   const { title, description, value } = req.body;
   const image = req.file.originalname;
 
@@ -29,7 +29,7 @@ exports.tvCreate = async (req, res) => {
   }
 };
 
-exports.tvUpdate = async (req, res) => {
+exports.tvPatch = async (req, res) => {
   const { id, title, description, value } = req.body;
   const image = req.file.originalname;
 

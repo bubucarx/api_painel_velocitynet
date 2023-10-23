@@ -5,11 +5,13 @@ const pastaUploads = path.join(__dirname, "..", "..", "uploads");
 const imagens = [];
 const host = "http://localhost:3000/uploads";
 
-exports.listarSlider = async (req, res) => {
+exports.sliderGet = async (req, res) => {
   fs.readdir(pastaUploads, (err, files) => {
     if (err) {
       return res.status(500).send("Erro ao listar imagens");
     }
+
+    const imagens = []; // Reinicialize o array de imagens
 
     files.forEach((file) => {
       if (
@@ -25,7 +27,8 @@ exports.listarSlider = async (req, res) => {
   });
 };
 
-exports.slider = async (req, res) => {
+exports.sliderPost = async (req, res) => {
+  const { time } = req.body;
   const file = req.file;
 
   if (!file) {

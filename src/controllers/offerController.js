@@ -1,5 +1,16 @@
 const Offer = require("../models/Offer");
-exports.offer = async (req, res) => {
+
+exports.offerGet = async (req, res) => {
+  const offer = await Offer.find();
+
+  try {
+    res.status(200).json(offer);
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor " });
+  }
+};
+
+exports.offerPost = async (req, res) => {
   const { title, description, value } = req.body;
   const image = req.file.originalname;
 
@@ -18,7 +29,7 @@ exports.offer = async (req, res) => {
   }
 };
 
-exports.offerUpdate = async (req, res) => {
+exports.offerPatch = async (req, res) => {
   const { id, title, description, value } = req.body;
   const image = req.file.originalname;
 
