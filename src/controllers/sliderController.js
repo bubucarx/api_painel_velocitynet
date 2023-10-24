@@ -1,41 +1,34 @@
 const fs = require("fs");
 const path = require("path");
+const Slider = require("../models/Slider");
 
 const pastaUploads = path.join(__dirname, "..", "..", "uploads");
 const imagens = [];
-const host = "http://localhost:3000/uploads";
+const host = "http://localhost:3000/api/v1/uploads";
 
 exports.sliderGet = async (req, res) => {
-  fs.readdir(pastaUploads, (err, files) => {
-    if (err) {
-      return res.status(500).send("Erro ao listar imagens");
-    }
-
-    const imagens = []; // Reinicialize o array de imagens
-
-    files.forEach((file) => {
-      if (
-        file.endsWith(".jpg") ||
-        file.endsWith(".png") ||
-        file.endsWith(".jpeg")
-      ) {
-        imagens.push(`${host}/${file}`);
-      }
-    });
-
-    res.status(200).json(imagens);
-  });
+  const slider = await Slider.find({}, { _id: 0, name: 1 });
+  try {
+    res.status(200).json(slider);
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor " });
+  }
 };
 
 exports.sliderPost = async (req, res) => {
-  const { time } = req.body;
   const file = req.file;
+  const name = req.file.originalname;
+
+  const slider = new Slider({
+    name: name,
+  });
 
   if (!file) {
     res.status(422).json({ msg: "Imagem inválida" });
   }
 
   try {
+    await slider.save();
     res.status(200).json({ msg: "Imagem salva" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });

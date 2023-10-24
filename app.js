@@ -35,8 +35,8 @@ app.post(
 );
 
 app.post("/api/v1/login", loginController.login);
-app.post("/auth/login", loginController.authLogin);
-app.post("/auth/register", loginController.authRegister);
+app.post("/api/v1/auth/login", loginController.authLogin);
+app.post("/api/v1/auth/register", loginController.authRegister);
 
 app.get("/api/v1/card-title", cardController.cardTitleSectionGet);
 app.post("/api/v1/card-title", cardController.cardTitleSectionPost);
