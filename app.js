@@ -17,6 +17,7 @@ const loginController = require("./src/controllers/loginController");
 const cardController = require("./src/controllers/cardController");
 const offerController = require("./src/controllers/offerController");
 const tvController = require("./src/controllers/tvController");
+const plansController = require("./src/controllers/plansController");
 
 app.use(express.json());
 app.use(cors());
@@ -33,6 +34,9 @@ app.post(
   upload.single("foto"),
   sliderController.sliderPost
 );
+
+app.get("/api/v1/plans", plansController.plansGet);
+app.post("/api/v1/plans", upload.single("foto"), plansController.plansPost);
 
 app.post("/api/v1/login", loginController.login);
 app.post("/api/v1/auth/login", loginController.authLogin);
