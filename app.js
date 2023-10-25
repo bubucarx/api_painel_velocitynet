@@ -28,16 +28,21 @@ app.get("/api/v1/", (req, res) => {
 
 app.get("/api/v1/slider", sliderController.sliderGet);
 app.delete("/api/v1/slider", sliderController.sliderDelete);
+app.patch(
+  "/api/v1/slider",
+  upload.single("image"),
+  sliderController.sliderPatch
+);
 app.get("/api/v1/uploads/:nomeDoArquivo", sliderController.verArquivo);
 app.post(
   "/api/v1/slider",
   checkToken,
-  upload.single("foto"),
+  upload.single("image"),
   sliderController.sliderPost
 );
 
 app.get("/api/v1/plans", plansController.plansGet);
-app.post("/api/v1/plans", upload.single("foto"), plansController.plansPost);
+app.post("/api/v1/plans", upload.single("image"), plansController.plansPost);
 
 app.post("/api/v1/login", loginController.login);
 app.post("/api/v1/auth/login", loginController.authLogin);
@@ -53,13 +58,13 @@ app.patch("/api/v1/card", cardController.cardPatch);
 app.delete("/api/v1/card", cardController.cardDelete);
 
 app.get("/api/v1/offer", offerController.offerGet);
-app.post("/api/v1/offer", upload.single("foto"), offerController.offerPost);
-app.patch("/api/v1/offer", upload.single("foto"), offerController.offerPatch);
+app.post("/api/v1/offer", upload.single("image"), offerController.offerPost);
+app.patch("/api/v1/offer", upload.single("image"), offerController.offerPatch);
 app.delete("/api/v1/offer", offerController.offerDelete);
 
 app.get("/api/v1/tv", tvController.tvGet);
-app.post("/api/v1/tv", upload.single("foto"), tvController.tvPost);
-app.patch("/api/v1/tv", upload.single("foto"), tvController.tvPatch);
+app.post("/api/v1/tv", upload.single("image"), tvController.tvPost);
+app.patch("/api/v1/tv", upload.single("image"), tvController.tvPatch);
 app.delete("/api/v1/tv", tvController.tvDelete);
 
 mongoose

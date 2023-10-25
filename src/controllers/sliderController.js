@@ -31,6 +31,25 @@ exports.sliderPost = async (req, res) => {
   }
 };
 
+exports.sliderPatch = async (req, res) => {
+  const file = req.file;
+  const name = req.file.originalname;
+  const { id } = req.body;
+
+  if (!file) {
+    res.status(422).json({ msg: "Imagem inválida" });
+  }
+
+  try {
+    await Slider.updateOne({ _id: id }, { $set: { name: name } });
+    res.status(200).json({
+      msg: "Image alterado com sucesso",
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Erro no servidor" });
+  }
+};
+
 exports.sliderDelete = async (req, res) => {
   const { id } = req.body;
   try {
