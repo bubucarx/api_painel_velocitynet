@@ -2,12 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const Slider = require("../models/Slider");
 
-const pastaUploads = path.join(__dirname, "..", "..", "uploads");
-const imagens = [];
-const host = "http://localhost:3000/api/v1/uploads";
-
 exports.sliderGet = async (req, res) => {
-  const slider = await Slider.find({}, { _id: 0, name: 1 });
+  const slider = await Slider.find({});
   try {
     res.status(200).json(slider);
   } catch (error) {
@@ -32,6 +28,16 @@ exports.sliderPost = async (req, res) => {
     res.status(200).json({ msg: "Imagem salva" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });
+  }
+};
+
+exports.sliderDelete = async (req, res) => {
+  const { id } = req.body;
+  try {
+    await Slider.deleteOne({ _id: id });
+    res.status(200).json({ msg: "Image deletada com sucesso" });
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor " });
   }
 };
 

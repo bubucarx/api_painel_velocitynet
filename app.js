@@ -27,6 +27,7 @@ app.get("/api/v1/", (req, res) => {
 });
 
 app.get("/api/v1/slider", sliderController.sliderGet);
+app.delete("/api/v1/slider", sliderController.sliderDelete);
 app.get("/api/v1/uploads/:nomeDoArquivo", sliderController.verArquivo);
 app.post(
   "/api/v1/slider",
