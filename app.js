@@ -11,7 +11,7 @@ const upload = multer({ storage });
 
 const cors = require("cors");
 
-const checkToken = require("./src/middleware/checktoken");
+// const checkToken = require("./src/middleware/checktoken");
 const sliderController = require("./src/controllers/sliderController");
 const loginController = require("./src/controllers/loginController");
 const cardController = require("./src/controllers/cardController");
@@ -27,6 +27,7 @@ app.get("/api/v1/", (req, res) => {
 });
 
 app.get("/api/v1/slider", sliderController.sliderGet);
+app.post("/api/v1/slider", upload.single("image"), sliderController.sliderPost);
 app.delete("/api/v1/slider", sliderController.sliderDelete);
 app.patch(
   "/api/v1/slider",
@@ -34,12 +35,6 @@ app.patch(
   sliderController.sliderPatch
 );
 app.get("/api/v1/uploads/:nomeDoArquivo", sliderController.verArquivo);
-app.post(
-  "/api/v1/slider",
-  checkToken,
-  upload.single("image"),
-  sliderController.sliderPost
-);
 
 app.get("/api/v1/plans", plansController.plansGet);
 app.post("/api/v1/plans", upload.single("image"), plansController.plansPost);

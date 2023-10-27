@@ -31,7 +31,7 @@ exports.offerPost = async (req, res) => {
 
 exports.offerPatch = async (req, res) => {
   const { id, title, description, value } = req.body;
-  const image = req.file.originalname;
+  const image = req.file ? req.file.originalname : null;
 
   try {
     await Offer.updateOne(
@@ -47,7 +47,7 @@ exports.offerPatch = async (req, res) => {
     );
     res.status(200).json({ msg: "Oferta atualizada com sucesso" });
   } catch (error) {
-    res.status(500).json({ msg: "Error no servidor " });
+    res.status(500).json({ msg: "Error no servidor" });
   }
 };
 

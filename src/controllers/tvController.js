@@ -1,7 +1,7 @@
 const Tv = require("../models/Tv");
 
 exports.tvGet = async (req, res) => {
-  const tv = await Tv.findOne({});
+  const tv = await Tv.find();
 
   try {
     res.status(200).json(tv);
@@ -12,7 +12,7 @@ exports.tvGet = async (req, res) => {
 
 exports.tvPost = async (req, res) => {
   const { title, description, value } = req.body;
-  const image = req.file.originalname;
+  const image = req.file ? req.file.originalname : null;
 
   const offer = new Tv({
     title: title,
@@ -31,7 +31,7 @@ exports.tvPost = async (req, res) => {
 
 exports.tvPatch = async (req, res) => {
   const { id, title, description, value } = req.body;
-  const image = req.file.originalname;
+  const image = req.file ? req.file.originalname : null;
 
   try {
     await Tv.updateOne(

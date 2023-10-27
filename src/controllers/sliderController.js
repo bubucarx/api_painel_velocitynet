@@ -13,10 +13,12 @@ exports.sliderGet = async (req, res) => {
 
 exports.sliderPost = async (req, res) => {
   const file = req.file;
-  const name = req.file.originalname;
+  const image = req.file ? req.file.originalname : null;
+
+  console.log(req);
 
   const slider = new Slider({
-    name: name,
+    name: image,
   });
 
   if (!file) {
