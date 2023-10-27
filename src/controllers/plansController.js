@@ -3,7 +3,7 @@ const path = require("path");
 const Plans = require("../models/Plans");
 
 exports.plansGet = async (req, res) => {
-  const plans = await Plans.find({}, { _id: 0, name: 1 });
+  const plans = await Plans.find({});
   try {
     res.status(200).json(plans);
   } catch (error) {
@@ -28,6 +28,16 @@ exports.plansPost = async (req, res) => {
     res.status(200).json({ msg: "Imagem salva" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });
+  }
+};
+
+exports.plansDelete = async (req, res) => {
+  const { id } = req.body;
+  try {
+    await Plans.deleteOne({ _id: id });
+    res.status(200).json({ msg: "Imagem deletada com sucesso" });
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor " });
   }
 };
 

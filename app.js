@@ -38,6 +38,7 @@ app.get("/api/v1/uploads/:nomeDoArquivo", sliderController.verArquivo);
 
 app.get("/api/v1/plans", plansController.plansGet);
 app.post("/api/v1/plans", upload.single("image"), plansController.plansPost);
+app.delete("/api/v1/plans", plansController.plansDelete);
 
 app.post("/api/v1/login", loginController.login);
 app.post("/api/v1/auth/login", loginController.authLogin);
