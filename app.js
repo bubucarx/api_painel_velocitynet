@@ -11,7 +11,7 @@ const upload = multer({ storage });
 
 const cors = require("cors");
 
-// const checkToken = require("./src/middleware/checktoken");
+const checkToken = require("./src/middleware/checktoken");
 const sliderController = require("./src/controllers/sliderController");
 const loginController = require("./src/controllers/loginController");
 const cardController = require("./src/controllers/cardController");
@@ -27,46 +27,80 @@ app.get("/api/v1/", (req, res) => {
 });
 
 app.get("/api/v1/slider", sliderController.sliderGet);
-app.post("/api/v1/slider", upload.single("image"), sliderController.sliderPost);
-app.delete("/api/v1/slider", sliderController.sliderDelete);
+app.post(
+  "/api/v1/slider",
+  checkToken,
+  upload.single("image"),
+  sliderController.sliderPost
+);
+app.delete("/api/v1/slider", checkToken, sliderController.sliderDelete);
 app.patch(
   "/api/v1/slider",
+  checkToken,
   upload.single("image"),
   sliderController.sliderPatch
 );
 app.get("/api/v1/uploads/:nomeDoArquivo", sliderController.verArquivo);
 
 app.get("/api/v1/plans", plansController.plansGet);
-app.post("/api/v1/plans", upload.single("image"), plansController.plansPost);
-app.delete("/api/v1/plans", plansController.plansDelete);
+app.post(
+  "/api/v1/plans",
+  checkToken,
+  upload.single("image"),
+  plansController.plansPost
+);
+app.delete("/api/v1/plans", checkToken, plansController.plansDelete);
 
 app.post("/api/v1/login", loginController.login);
 app.post("/api/v1/auth/login", loginController.authLogin);
-app.post("/api/v1/auth/register", loginController.authRegister);
+// app.post("/api/v1/auth/register", loginController.authRegister);
 
 app.get("/api/v1/card-title", cardController.cardTitleSectionGet);
-app.post("/api/v1/card-title", cardController.cardTitleSectionPost);
-app.patch("/api/v1/card-title", cardController.cardTitleSectionPatch);
+app.post("/api/v1/card-title", checkToken, cardController.cardTitleSectionPost);
+app.patch(
+  "/api/v1/card-title",
+  checkToken,
+  cardController.cardTitleSectionPatch
+);
 
 app.get("/api/v1/card", cardController.cardGet);
-app.post("/api/v1/card", cardController.cardPost);
-app.patch("/api/v1/card", cardController.cardPatch);
-app.delete("/api/v1/card", cardController.cardDelete);
+app.post("/api/v1/card", checkToken, cardController.cardPost);
+app.patch("/api/v1/card", checkToken, cardController.cardPatch);
+app.delete("/api/v1/card", checkToken, cardController.cardDelete);
 
 app.get("/api/v1/offer", offerController.offerGet);
-app.post("/api/v1/offer", upload.single("image"), offerController.offerPost);
-app.patch("/api/v1/offer", upload.single("image"), offerController.offerPatch);
-app.delete("/api/v1/offer", offerController.offerDelete);
+app.post(
+  "/api/v1/offer",
+  checkToken,
+  upload.single("image"),
+  offerController.offerPost
+);
+app.patch(
+  "/api/v1/offer",
+  checkToken,
+  upload.single("image"),
+  offerController.offerPatch
+);
+app.delete("/api/v1/offer", checkToken, offerController.offerDelete);
 
 app.get("/api/v1/tv", tvController.tvGet);
-app.post("/api/v1/tv", upload.single("image"), tvController.tvPost);
-app.patch("/api/v1/tv", upload.single("image"), tvController.tvPatch);
-app.delete("/api/v1/tv", tvController.tvDelete);
+app.post("/api/v1/tv", checkToken, upload.single("image"), tvController.tvPost);
+app.patch(
+  "/api/v1/tv",
+  checkToken,
+  upload.single("image"),
+  tvController.tvPatch
+);
+app.delete("/api/v1/tv", checkToken, tvController.tvDelete);
 
 mongoose
-  .connect("mongodb://localhost:27017/")
+  .connect(process.env.URL_DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    ssl: true,
+  })
   .then(() => {
     app.listen(3000);
     console.log("Conectado ao banco");
   })
-  .catch((err) => console.log("Erro para se conectar no banco"));
+  .catch((err) => console.log(err));
