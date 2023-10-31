@@ -14,7 +14,7 @@ const cors = require("cors");
 const checkToken = require("./src/middleware/checktoken");
 const sliderController = require("./src/controllers/sliderController");
 const loginController = require("./src/controllers/loginController");
-const cardController = require("./src/controllers/cardController");
+const descriptionController = require("./src/controllers/descriptionController");
 const offerController = require("./src/controllers/offerController");
 const tvController = require("./src/controllers/tvController");
 const plansController = require("./src/controllers/plansController");
@@ -55,18 +55,22 @@ app.post("/api/v1/login", loginController.login);
 app.post("/api/v1/auth/login", loginController.authLogin);
 // app.post("/api/v1/auth/register", loginController.authRegister);
 
-app.get("/api/v1/card-title", cardController.cardTitleSectionGet);
-app.post("/api/v1/card-title", checkToken, cardController.cardTitleSectionPost);
+app.get("/api/v1/card-title", descriptionController.cardTitleSectionGet);
+app.post(
+  "/api/v1/card-title",
+  checkToken,
+  descriptionController.cardTitleSectionPost
+);
 app.patch(
   "/api/v1/card-title",
   checkToken,
-  cardController.cardTitleSectionPatch
+  descriptionController.cardTitleSectionPatch
 );
 
-app.get("/api/v1/card", cardController.cardGet);
-app.post("/api/v1/card", checkToken, cardController.cardPost);
-app.patch("/api/v1/card", checkToken, cardController.cardPatch);
-app.delete("/api/v1/card", checkToken, cardController.cardDelete);
+app.get("/api/v1/card", descriptionController.cardGet);
+app.post("/api/v1/card", checkToken, descriptionController.cardPost);
+app.patch("/api/v1/card", checkToken, descriptionController.cardPatch);
+app.delete("/api/v1/card", checkToken, descriptionController.cardDelete);
 
 app.get("/api/v1/offer", offerController.offerGet);
 app.post(
@@ -97,7 +101,7 @@ mongoose
   .connect(process.env.URL_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    // ssl: true,
+    ssl: true,
   })
   .then(() => {
     app.listen(3000);
