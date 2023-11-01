@@ -70,7 +70,7 @@ app.patch(
 app.get("/api/v1/card", descriptionController.cardGet);
 app.post("/api/v1/card", checkToken, descriptionController.cardPost);
 app.patch("/api/v1/card", checkToken, descriptionController.cardPatch);
-app.delete("/api/v1/card", checkToken, descriptionController.cardDelete);
+app.delete("/api/v1/card/:id", checkToken, descriptionController.cardDelete);
 
 app.get("/api/v1/offer", offerController.offerGet);
 app.post(

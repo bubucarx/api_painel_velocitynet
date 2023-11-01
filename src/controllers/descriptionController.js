@@ -83,7 +83,9 @@ exports.cardPatch = async (req, res) => {
 };
 
 exports.cardDelete = async (req, res) => {
-  const { id } = req.body;
+  const id = req.params.id;
+
+  console.log(id);
 
   try {
     await Card.deleteOne({ _id: id });
