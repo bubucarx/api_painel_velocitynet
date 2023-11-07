@@ -3,22 +3,41 @@ const path = require("path");
 const Slider = require("../models/Slider");
 
 exports.sliderGet = async (req, res) => {
-  const slider = await Slider.find({});
   try {
+    const currentDate = new Date();
+    const formattedCurrentDate = currentDate.toLocaleDateString("pt-BR");
+
+    const slider = await Slider.find({
+      dateSlider: {
+        $gte: formattedCurrentDate,
+      },
+    });
+
     res.status(200).json(slider);
   } catch (error) {
-    res.status(500).json({ msg: "Error no servidor " });
+    res.status(500).json({ msg: "Error no servidor" });
+  }
+};
+
+exports.sliderGetAll = async (req, res) => {
+  try {
+    const slider = await Slider.find({});
+
+    res.status(200).json(slider);
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor" });
   }
 };
 
 exports.sliderPost = async (req, res) => {
+  const currentDate = new Date();
+  const formattedCurrentDate = currentDate.toLocaleDateString("pt-BR");
   const file = req.file;
   const image = req.file ? req.file.originalname : null;
 
-  console.log(req);
-
   const slider = new Slider({
     name: image,
+    dateSlider: formattedCurrentDate,
   });
 
   if (!file) {
@@ -34,18 +53,19 @@ exports.sliderPost = async (req, res) => {
 };
 
 exports.sliderPatch = async (req, res) => {
-  const file = req.file;
-  const name = req.file.originalname;
-  const { id } = req.body;
+  const name = req.file ? req.file.originalname : null;
+  const { id, date } = req.body;
 
-  if (!file) {
-    res.status(422).json({ msg: "Imagem inválida" });
+  const updateFields = { dateSlider: date };
+
+  if (name !== null) {
+    updateFields.name = name;
   }
 
   try {
-    await Slider.updateOne({ _id: id }, { $set: { name: name } });
+    await Slider.updateOne({ _id: id }, { $set: updateFields });
     res.status(200).json({
-      msg: "Image alterado com sucesso",
+      msg: "Imagem alterada com sucesso",
     });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });

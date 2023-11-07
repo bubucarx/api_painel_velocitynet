@@ -27,6 +27,8 @@ app.get("/api/v1/", (req, res) => {
 });
 
 app.get("/api/v1/slider", sliderController.sliderGet);
+app.get("/api/v1/slider-all", sliderController.sliderGetAll);
+
 app.post(
   "/api/v1/slider",
   checkToken,
@@ -48,6 +50,12 @@ app.post(
   checkToken,
   upload.single("image"),
   plansController.plansPost
+);
+app.patch(
+  "/api/v1/plans",
+  checkToken,
+  upload.single("image"),
+  plansController.plansPatch
 );
 app.delete("/api/v1/plans", checkToken, plansController.plansDelete);
 
