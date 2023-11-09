@@ -109,7 +109,7 @@ mongoose
   .connect(process.env.URL_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    ssl: true,
+    // ssl: true,
   })
   .then(() => {
     app.listen(3000);

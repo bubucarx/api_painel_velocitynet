@@ -13,7 +13,11 @@ exports.sliderGet = async (req, res) => {
       },
     });
 
-    res.status(200).json(slider);
+    if (slider == "") {
+      res.status(204).json({ msg: "Lista vazia" });
+    } else {
+      res.status(200).json(slider);
+    }
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor" });
   }
@@ -23,7 +27,11 @@ exports.sliderGetAll = async (req, res) => {
   try {
     const slider = await Slider.find({});
 
-    res.status(200).json(slider);
+    if (slider == "") {
+      res.status(204).json({ msg: "Lista vazia" });
+    } else {
+      res.status(200).json(slider);
+    }
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor" });
   }
