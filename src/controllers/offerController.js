@@ -33,21 +33,36 @@ exports.offerPatch = async (req, res) => {
   const { id, title, description, value } = req.body;
   const image = req.file ? req.file.originalname : null;
 
+  const id_param = req.params.id;
+
+  const updateFields = {};
+
+  if (title !== undefined) {
+    updateFields.title = title;
+  }
+
+  if (description !== undefined) {
+    updateFields.description = description;
+  }
+
+  if (value !== undefined) {
+    updateFields.value = value;
+  }
+
+  if (image !== null) {
+    updateFields.image = image;
+  }
+
   try {
-    await Offer.updateOne(
-      { _id: id },
-      {
-        $set: {
-          title: title,
-          description: description,
-          value: value,
-          image: image,
-        },
-      }
-    );
-    res.status(200).json({ msg: "Oferta atualizada com sucesso" });
+    if (id_param != undefined) {
+      await Offer.updateOne({ _id: id_param }, { $set: updateFields });
+      res.status(200).json({ msg: "Oferta atualizada com sucesso" });
+    } else {
+      await Offer.updateOne({ _id: id }, { $set: updateFields });
+      res.status(200).json({ msg: "Oferta atualizada com sucesso" });
+    }
   } catch (error) {
-    res.status(500).json({ msg: "Error no servidor" });
+    res.status(500).json({ msg: "Erro no servidor" });
   }
 };
 

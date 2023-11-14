@@ -88,7 +88,7 @@ app.post(
   offerController.offerPost
 );
 app.patch(
-  "/api/v1/offer",
+  "/api/v1/offer/:id?",
   checkToken,
   upload.single("image"),
   offerController.offerPatch
