@@ -98,7 +98,7 @@ app.delete("/api/v1/offer", checkToken, offerController.offerDelete);
 app.get("/api/v1/tv", tvController.tvGet);
 app.post("/api/v1/tv", checkToken, upload.single("image"), tvController.tvPost);
 app.patch(
-  "/api/v1/tv",
+  "/api/v1/tv/:id?",
   checkToken,
   upload.single("image"),
   tvController.tvPatch

@@ -14,7 +14,7 @@ exports.tvPost = async (req, res) => {
   const { title, description, value } = req.body;
   const image = req.file ? req.file.originalname : null;
 
-  const offer = new Tv({
+  const tv = new Tv({
     title: title,
     description: description,
     value: value,
@@ -22,7 +22,7 @@ exports.tvPost = async (req, res) => {
   });
 
   try {
-    await offer.save();
+    await tv.save();
     res.status(200).json({ msg: "Tv salva com sucesso" });
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
@@ -33,21 +33,36 @@ exports.tvPatch = async (req, res) => {
   const { id, title, description, value } = req.body;
   const image = req.file ? req.file.originalname : null;
 
+  const id_param = req.params.id;
+
+  const updateFields = {};
+
+  if (title !== undefined) {
+    updateFields.title = title;
+  }
+
+  if (description !== undefined) {
+    updateFields.description = description;
+  }
+
+  if (value !== undefined) {
+    updateFields.value = value;
+  }
+
+  if (image !== null) {
+    updateFields.image = image;
+  }
+
   try {
-    await Tv.updateOne(
-      { _id: id },
-      {
-        $set: {
-          title: title,
-          description: description,
-          value: value,
-          image: image,
-        },
-      }
-    );
-    res.status(200).json({ msg: "Tv atualizada com sucesso" });
+    if (id_param != undefined) {
+      await Tv.updateOne({ _id: id_param }, { $set: updateFields });
+      res.status(200).json({ msg: "Tv atualizada com sucesso" });
+    } else {
+      await Tv.updateOne({ _id: id }, { $set: updateFields });
+      res.status(200).json({ msg: "Tv atualizada com sucesso" });
+    }
   } catch (error) {
-    res.status(500).json({ msg: "Error no servidor " });
+    res.status(500).json({ msg: "Erro no servidor" });
   }
 };
 
