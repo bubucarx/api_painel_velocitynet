@@ -1,12 +1,22 @@
 const multer = require("multer");
+const crypto = require("crypto");
+
+function createHash(data) {
+  const hash = crypto.createHash("sha256");
+  hash.update(data);
+  return hash.digest("hex");
+}
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "uploads");
   },
   filename: async function async(req, file, cb) {
     const nomeArquivo = file.originalname;
-    cb(null, nomeArquivo);
+    const hashValue = createHash(nomeArquivo);
+    const type = file.mimetype.split("/")[1];
+    const name = hashValue + "." + type;
+    cb(null, name);
   },
 });
 
