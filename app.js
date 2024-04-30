@@ -18,6 +18,7 @@ const descriptionController = require("./src/controllers/descriptionController")
 const offerController = require("./src/controllers/offerController");
 const tvController = require("./src/controllers/tvController");
 const plansController = require("./src/controllers/plansController");
+const cardPlansController = require("./src/controllers/cardPLansController");
 
 app.use(express.json());
 app.use(cors());
@@ -26,9 +27,11 @@ app.get("/api/v1/", (req, res) => {
   res.status(200).json({ msg: "Bem vindo a nossa api!" });
 });
 
+app.get("/api/v1/uploads/:nomeDoArquivo", sliderController.verArquivo);
+
+///////////////////////////////////////////////// SLIDER ///////////////////////////////////////////////////////////
 app.get("/api/v1/slider", sliderController.sliderGet);
 app.get("/api/v1/slider-all", sliderController.sliderGetAll);
-
 app.post(
   "/api/v1/slider",
   checkToken,
@@ -42,8 +45,9 @@ app.patch(
   upload.single("image"),
   sliderController.sliderPatch
 );
-app.get("/api/v1/uploads/:nomeDoArquivo", sliderController.verArquivo);
+///////////////////////////////////////////////// SLIDER ///////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////// PLANOS ///////////////////////////////////////////////////////////
 app.get("/api/v1/plans", plansController.plansGet);
 app.post(
   "/api/v1/plans",
@@ -58,11 +62,15 @@ app.patch(
   plansController.plansPatch
 );
 app.delete("/api/v1/plans", checkToken, plansController.plansDelete);
+///////////////////////////////////////////////// PLANOS ///////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////// LOGIN ///////////////////////////////////////////////////////////
 app.post("/api/v1/login", loginController.login);
 app.post("/api/v1/auth/login", loginController.authLogin);
-// app.post("/api/v1/auth/register", loginController.authRegister);
+app.post("/api/v1/auth/register", loginController.authRegister);
+///////////////////////////////////////////////// LOGIN ///////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////// CARD ///////////////////////////////////////////////////////////
 app.get("/api/v1/card-title", descriptionController.cardTitleSectionGet);
 app.post(
   "/api/v1/card-title",
@@ -79,7 +87,9 @@ app.get("/api/v1/card", descriptionController.cardGet);
 app.post("/api/v1/card", checkToken, descriptionController.cardPost);
 app.patch("/api/v1/card", checkToken, descriptionController.cardPatch);
 app.delete("/api/v1/card/:id", checkToken, descriptionController.cardDelete);
+///////////////////////////////////////////////// CARD ///////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////// OFERTA ///////////////////////////////////////////////////////////
 app.get("/api/v1/offer", offerController.offerGet);
 app.post(
   "/api/v1/offer",
@@ -94,7 +104,9 @@ app.patch(
   offerController.offerPatch
 );
 app.delete("/api/v1/offer", checkToken, offerController.offerDelete);
+///////////////////////////////////////////////// OFERTA ///////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////// TV ///////////////////////////////////////////////////////////
 app.get("/api/v1/tv", tvController.tvGet);
 app.post("/api/v1/tv", checkToken, upload.single("image"), tvController.tvPost);
 app.patch(
@@ -103,7 +115,20 @@ app.patch(
   upload.single("image"),
   tvController.tvPatch
 );
+
 app.delete("/api/v1/tv", checkToken, tvController.tvDelete);
+///////////////////////////////////////////////// TV ///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////// CARD PLANO  ///////////////////////////////////////////////////////////
+
+app.get("/api/v1/card-plans", checkToken, cardPlansController.cardPlansGet);
+app.post(
+  "/api/v1/card-plans/create",
+  checkToken,
+  upload.single("image"),
+  cardPlansController.cardPlansCreate
+);
+///////////////////////////////////////////////// CARD PLANO ///////////////////////////////////////////////////////////
 
 mongoose
   .connect(process.env.URL_DB, {
