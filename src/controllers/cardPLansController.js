@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const Plans = require("../models/Plans");
+const Plans = require("../models/Category");
 const CardPLans = require("../models/CardPlans");
 
 exports.cardPlansGet = async (req, res) => {
@@ -13,45 +13,51 @@ exports.cardPlansGet = async (req, res) => {
 };
 
 exports.cardPlansCreate = async (req, res) => {
-  const { idPlans } = req.body;
+  const { idPlans, name, tipoPlano, preco } = req.body;
   const file = req.file.filename;
 
   const cardPlans = new CardPLans({
-    name: file,
+    nome: name,
+    image: file,
     idPlans: idPlans,
+    tipoPlano: tipoPlano,
+    preco: preco,
   });
 
   try {
     await cardPlans.save();
-    res.status(200).json({ msg: "Imagem salva" });
+    res.status(200).json({ msg: "Card cadastrado com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });
   }
 };
 
-exports.plansDelete = async (req, res) => {
+exports.cardPlansDelete = async (req, res) => {
   const { id } = req.body;
   try {
     await CardPLans.deleteOne({ _id: id });
-    res.status(200).json({ msg: "Imagem deletada com sucesso" });
+    res.status(200).json({ msg: "Card deletado com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }
 };
 
-// exports.plansPatch = async (req, res) => {
-//   const file = req.file;
-//   const name = req.file.originalname;
-//   const { id } = req.body;
+// exports.cardPlansPatch = async (req, res) => {
+//   const { id, name, tipoPlano, preco } = req.body;
 
-//   if (!file) {
-//     res.status(422).json({ msg: "Imagem inválida" });
+//   const file = "";
+
+//   if (req.file) {
+//     file = req.file.originalname;
 //   }
 
 //   try {
-//     await Plans.updateOne({ _id: id }, { $set: { name: name } });
+//     await CardPLans.updateOne(
+//       { _id: id },
+//       { $set: { name: name, image: file, tipoPlano: tipoPlano, preco: preco } }
+//     );
 //     res.status(200).json({
-//       msg: "Imagem alterada com sucesso",
+//       msg: "Card atualizado com sucesso!",
 //     });
 //   } catch (error) {
 //     res.status(500).json({ msg: "Erro no servidor" });

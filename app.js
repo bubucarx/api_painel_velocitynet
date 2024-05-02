@@ -17,8 +17,10 @@ const loginController = require("./src/controllers/loginController");
 const descriptionController = require("./src/controllers/descriptionController");
 const offerController = require("./src/controllers/offerController");
 const tvController = require("./src/controllers/tvController");
-const plansController = require("./src/controllers/plansController");
+const categoryController = require("./src/controllers/categoryController");
 const cardPlansController = require("./src/controllers/cardPLansController");
+const benefitsController = require("./src/controllers/benefits");
+const categoryPlanController = require("./src/controllers/categoryPlanController");
 
 app.use(express.json());
 app.use(cors());
@@ -48,20 +50,20 @@ app.patch(
 ///////////////////////////////////////////////// SLIDER ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// PLANOS ///////////////////////////////////////////////////////////
-app.get("/api/v1/plans", plansController.plansGet);
+app.get("/api/v1/plans", categoryController.categoryGet);
 app.post(
   "/api/v1/plans",
   checkToken,
   upload.single("image"),
-  plansController.plansPost
+  categoryController.categoryPost
 );
 app.patch(
   "/api/v1/plans",
   checkToken,
   upload.single("image"),
-  plansController.plansPatch
+  categoryController.categoryPatch
 );
-app.delete("/api/v1/plans", checkToken, plansController.plansDelete);
+app.delete("/api/v1/plans", checkToken, categoryController.categoryDelete);
 ///////////////////////////////////////////////// PLANOS ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// LOGIN ///////////////////////////////////////////////////////////
@@ -128,7 +130,55 @@ app.post(
   upload.single("image"),
   cardPlansController.cardPlansCreate
 );
+app.delete(
+  "/api/v1/card-plans/delete",
+  checkToken,
+  cardPlansController.cardPlansDelete
+);
+
+// app.patch(
+//   "/api/v1/card-plans/patch",
+//   checkToken,
+//   upload.single("image"),
+//   cardPlansController.cardPlansPatch
+// );
 ///////////////////////////////////////////////// CARD PLANO ///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////// BENEFITS ///////////////////////////////////////////////////////////
+app.get("/api/v1/benefits", checkToken, benefitsController.benefitsGet);
+app.post(
+  "/api/v1/benefits/create",
+  checkToken,
+  upload.single("image"),
+  benefitsController.benefitsCreate
+);
+app.delete(
+  "/api/v1/benefits/delete",
+  checkToken,
+  benefitsController.benefitsDelete
+);
+
+///////////////////////////////////////////////// BENEFITS ///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////
+app.get(
+  "/api/v1/category-plan",
+  checkToken,
+  categoryPlanController.categoryPlanGet
+);
+
+app.post(
+  "/api/v1/category-plan/create",
+  checkToken,
+  categoryPlanController.categoryPlanCreate
+);
+
+app.delete(
+  "/api/v1/category-plan/delete",
+  checkToken,
+  categoryPlanController.categoryPlanDelete
+);
+///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////
 
 mongoose
   .connect(process.env.URL_DB, {

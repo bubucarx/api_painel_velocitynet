@@ -1,21 +1,21 @@
 const fs = require("fs");
 const path = require("path");
-const Plans = require("../models/Plans");
+const Category = require("../models/Category");
 
-exports.plansGet = async (req, res) => {
-  const plans = await Plans.find({});
+exports.categoryGet = async (req, res) => {
+  const category = await Category.find({});
   try {
-    res.status(200).json(plans);
+    res.status(200).json(category);
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }
 };
 
-exports.plansPost = async (req, res) => {
+exports.categoryPost = async (req, res) => {
   const file = req.file;
   const name = req.file.originalname;
 
-  const plans = new Plans({
+  const category = new Category({
     name: name,
   });
 
@@ -24,14 +24,14 @@ exports.plansPost = async (req, res) => {
   }
 
   try {
-    await plans.save();
+    await category.save();
     res.status(200).json({ msg: "Imagem salva" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });
   }
 };
 
-exports.plansPatch = async (req, res) => {
+exports.categoryPatch = async (req, res) => {
   const file = req.file;
   const name = req.file.originalname;
   const { id } = req.body;
@@ -41,7 +41,7 @@ exports.plansPatch = async (req, res) => {
   }
 
   try {
-    await Plans.updateOne({ _id: id }, { $set: { name: name } });
+    await Category.updateOne({ _id: id }, { $set: { name: name } });
     res.status(200).json({
       msg: "Imagem alterada com sucesso",
     });
@@ -50,10 +50,10 @@ exports.plansPatch = async (req, res) => {
   }
 };
 
-exports.plansDelete = async (req, res) => {
+exports.categoryDelete = async (req, res) => {
   const { id } = req.body;
   try {
-    await Plans.deleteOne({ _id: id });
+    await Category.deleteOne({ _id: id });
     res.status(200).json({ msg: "Imagem deletada com sucesso" });
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
