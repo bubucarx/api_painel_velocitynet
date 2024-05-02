@@ -2,24 +2,24 @@ const CategoryPlan = require("../models/CategoryPlan");
 const Category = require("../models/CategoryPlan");
 
 exports.categoryPlanGet = async (req, res) => {
-  const category = await Category.find({});
+  const categoryPlan = await Category.find({});
   try {
-    res.status(200).json(category);
+    res.status(200).json(categoryPlan);
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }
 };
 
 exports.categoryPlanCreate = async (req, res) => {
-  const { name, preco } = req.body;
+  const { name, visualizacao } = req.body;
 
-  const benefits = new CategoryPlan({
+  const categoryPlan = new CategoryPlan({
     nome: name,
-    preco: preco,
+    visualizacao: visualizacao,
   });
 
   try {
-    await benefits.save();
+    await categoryPlan.save();
     res.status(200).json({ msg: "Categoria cadastrada com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });

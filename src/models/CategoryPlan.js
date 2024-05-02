@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const CategoryPlan = mongoose.model("category_plan", {
   nome: String,
-  preco: Schema.Types.Decimal128,
+  visualizacao: String,
   status: {
     type: Boolean,
     default: true,

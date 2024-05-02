@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const CardPLans = mongoose.model("card_plans", {
   nome: String,
   image: String,
+  planoBase: String,
   idPlans: {
     type: Schema.Types.ObjectId,
     ref: "plans",

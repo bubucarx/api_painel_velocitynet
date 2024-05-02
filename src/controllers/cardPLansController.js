@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Plans = require("../models/Category");
-const CardPLans = require("../models/CardPlans");
+const CardPLans = require("../models/Plan");
 
 exports.cardPlansGet = async (req, res) => {
   const cardPlans = await CardPLans.find({});
