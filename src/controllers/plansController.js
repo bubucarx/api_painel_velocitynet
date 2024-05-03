@@ -1,42 +1,53 @@
 const fs = require("fs");
 const path = require("path");
 const Plans = require("../models/Category");
-const CardPLans = require("../models/Plan");
+const Plan = require("../models/Plan");
 
-exports.cardPlansGet = async (req, res) => {
-  const cardPlans = await CardPLans.find({});
+exports.plansGet = async (req, res) => {
+  const plans = await Plan.find({});
   try {
-    res.status(200).json(cardPlans);
+    res.status(200).json(plans);
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }
 };
 
-exports.cardPlansCreate = async (req, res) => {
-  const { idPlans, name, tipoPlano, preco } = req.body;
-  const file = req.file.filename;
+exports.plansCreate = async (req, res) => {
+  const { nome, descricao, idCategoria, preco, complementar } = req.body;
 
-  const cardPlans = new CardPLans({
-    nome: name,
-    image: file,
-    idPlans: idPlans,
-    tipoPlano: tipoPlano,
+  const images = req.files;
+  const arrayImages = [];
+
+  for (const image of images) {
+    arrayImages.push(image["filename"]);
+  }
+
+  const logo = arrayImages[0];
+  const imageBase = arrayImages[1];
+
+  const plans = new Plan({
+    nome: nome,
+    imagem: logo,
+    planoBase: imageBase,
+    descricao: descricao,
+    idCategoria: idCategoria,
     preco: preco,
+    complementar: complementar,
   });
 
   try {
-    await cardPlans.save();
-    res.status(200).json({ msg: "Card cadastrado com sucesso!" });
+    await plans.save();
+    res.status(200).json({ msg: "Plano cadastrado com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });
   }
 };
 
-exports.cardPlansDelete = async (req, res) => {
+exports.plansDelete = async (req, res) => {
   const { id } = req.body;
   try {
-    await CardPLans.deleteOne({ _id: id });
-    res.status(200).json({ msg: "Card deletado com sucesso!" });
+    await Plan.deleteOne({ _id: id });
+    res.status(200).json({ msg: "Plano deletado com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }
@@ -52,7 +63,7 @@ exports.cardPlansDelete = async (req, res) => {
 //   }
 
 //   try {
-//     await CardPLans.updateOne(
+//     await Plan.updateOne(
 //       { _id: id },
 //       { $set: { name: name, image: file, tipoPlano: tipoPlano, preco: preco } }
 //     );

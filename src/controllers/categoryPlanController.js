@@ -13,8 +13,11 @@ exports.categoryPlanGet = async (req, res) => {
 exports.categoryPlanCreate = async (req, res) => {
   const { nome, subTitulo, visualizacao } = req.body;
 
+  const image = req.file.filename;
+
   const categoryPlan = new CategoryPlan({
     nome: nome,
+    logo: image,
     subTitulo: subTitulo,
     visualizacao: visualizacao,
   });

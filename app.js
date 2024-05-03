@@ -18,8 +18,8 @@ const descriptionController = require("./src/controllers/descriptionController")
 const offerController = require("./src/controllers/offerController");
 const tvController = require("./src/controllers/tvController");
 const categoryController = require("./src/controllers/categoryController");
-const cardPlansController = require("./src/controllers/cardPLansController");
-const benefitsController = require("./src/controllers/benefits");
+const plansController = require("./src/controllers/plansController");
+const additionalController = require("./src/controllers/additionalController");
 const categoryPlanController = require("./src/controllers/categoryPlanController");
 
 app.use(express.json());
@@ -123,42 +123,38 @@ app.delete("/api/v1/tv", checkToken, tvController.tvDelete);
 
 ///////////////////////////////////////////////// CARD PLANO  ///////////////////////////////////////////////////////////
 
-app.get("/api/v1/card-plans", checkToken, cardPlansController.cardPlansGet);
+app.get("/api/v1/plans", checkToken, plansController.plansGet);
 app.post(
-  "/api/v1/card-plans/create",
+  "/api/v1/plans/create",
   checkToken,
-  upload.single("image"),
-  cardPlansController.cardPlansCreate
+  upload.array("images"),
+  plansController.plansCreate
 );
-app.delete(
-  "/api/v1/card-plans/delete",
-  checkToken,
-  cardPlansController.cardPlansDelete
-);
+app.delete("/api/v1/plans/delete", checkToken, plansController.plansDelete);
 
 // app.patch(
-//   "/api/v1/card-plans/patch",
+//   "/api/v1/plans/patch",
 //   checkToken,
 //   upload.single("image"),
-//   cardPlansController.cardPlansPatch
+//   plansController.cardPlansPatch
 // );
 ///////////////////////////////////////////////// CARD PLANO ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// BENEFITS ///////////////////////////////////////////////////////////
-app.get("/api/v1/benefits", checkToken, benefitsController.benefitsGet);
+app.get("/api/v1/additional", checkToken, additionalController.additionalGet);
 app.post(
-  "/api/v1/benefits/create",
+  "/api/v1/additional/create",
   checkToken,
   upload.single("image"),
-  benefitsController.benefitsCreate
+  additionalController.additionalCreate
 );
 app.delete(
-  "/api/v1/benefits/delete",
+  "/api/v1/additional/delete",
   checkToken,
-  benefitsController.benefitsDelete
+  additionalController.additionalDelete
 );
 
-///////////////////////////////////////////////// BENEFITS ///////////////////////////////////////////////////////////
+////////////////////////AdditionalController//////////////////////// BENEFITS ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////
 app.get(
@@ -170,6 +166,7 @@ app.get(
 app.post(
   "/api/v1/category-plan/create",
   checkToken,
+  upload.single("image"),
   categoryPlanController.categoryPlanCreate
 );
 

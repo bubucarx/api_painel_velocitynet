@@ -1,24 +1,22 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const CardPLans = mongoose.model("card_plans", {
+const Plan = mongoose.model("plan", {
   nome: String,
-  image: String,
+  imagem: String,
   planoBase: String,
-  idPlans: {
+  descricao: String,
+  idCategoria: {
     type: Schema.Types.ObjectId,
-    ref: "plans",
+    ref: "category",
     require: true,
   },
+  preco: Schema.Types.Decimal128,
+  complementar: Schema.Types.Array,
   status: {
     type: Boolean,
     default: true,
   },
-  tipoPlano: {
-    type: String,
-    default: null,
-  },
-  preco: Schema.Types.Decimal128,
 });
 
-module.exports = CardPLans;
+module.exports = Plan;

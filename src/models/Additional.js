@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const Benefits = mongoose.model("benefits", {
-  npme: String,
+const Additional = mongoose.model("additional", {
+  nome: String,
   image: String,
   preco: Schema.Types.Decimal128,
   status: {
@@ -11,4 +11,4 @@ const Benefits = mongoose.model("benefits", {
   },
 });
 
-module.exports = Benefits;
+module.exports = Additional;
