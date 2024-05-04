@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const CardPlan = mongoose.model("CardPlan", {
+const CardPlan = mongoose.model("card_plan", {
   imagem: String,
+  idCategory: {
+    type: Schema.Types.ObjectId,
+    ref: "Category",
+  },
   status: {
-    default: false,
+    default: true,
     type: Boolean,
   },
 });
