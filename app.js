@@ -22,6 +22,7 @@ const plansController = require("./src/controllers/plansController");
 const additionalController = require("./src/controllers/additionalController");
 const categoryPlanController = require("./src/controllers/categoryPlanController");
 const cardPlanController = require("./src/controllers/cardPlanController");
+const additionalInformationController = require("./src/controllers/AdditionalInformation.dart");
 
 app.use(express.json());
 app.use(cors());
@@ -192,6 +193,28 @@ app.delete(
   cardPlanController.cardPlanDelete
 );
 ///////////////////////////////////////////////// CARD PLAN ///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////// ADDITIONAL INFORMATION ///////////////////////////////////////////////////////////
+app.get(
+  "/api/v1/additional-information",
+  checkToken,
+  additionalInformationController.additionalInformationGet
+);
+
+app.post(
+  "/api/v1/additional-information/create",
+  checkToken,
+  upload.single("image"),
+  additionalInformationController.additionalInformationCreate
+);
+
+app.delete(
+  "/api/v1/additional-information/delete",
+  checkToken,
+  additionalInformationController.additionalInformationDelete
+);
+
+///////////////////////////////////////////////// ADDITIONAL INFORMATION ///////////////////////////////////////////////////////////
 
 mongoose
   .connect(process.env.URL_DB, {

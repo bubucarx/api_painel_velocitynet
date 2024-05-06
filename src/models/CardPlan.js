@@ -5,7 +5,7 @@ const CardPlan = mongoose.model("card_plan", {
   imagem: String,
   idCategory: {
     type: Schema.Types.ObjectId,
-    ref: "Category",
+    ref: "category",
   },
   status: {
     default: true,

@@ -1,39 +1,38 @@
-const CategoryPlan = require("../models/CategoryPlan");
-const Category = require("../models/CategoryPlan");
+const AdditionalInformation = require("../models/AdditionalInformation");
 
-exports.categoryPlanGet = async (req, res) => {
-  const categoryPlan = await Category.find({});
+exports.additionalInformationGet = async (req, res) => {
+  const additionalInformation = await AdditionalInformation.find({});
   try {
-    res.status(200).json(categoryPlan);
+    res.status(200).json(additionalInformation);
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }
 };
 
-exports.categoryPlanCreate = async (req, res) => {
-  const { nome, subTitulo, visualizacao } = req.body;
+exports.additionalInformationCreate = async (req, res) => {
+  const { nome, idPlan } = req.body;
   const image = req.file.filename;
-
-  const categoryPlan = new CategoryPlan({
+  const additionalInformation = new AdditionalInformation({
     nome: nome,
-    logo: image,
-    subTitulo: subTitulo,
-    visualizacao: visualizacao,
+    image: image,
+    idPlan: idPlan,
   });
 
   try {
-    await categoryPlan.save();
-    res.status(200).json({ msg: "Categoria cadastrada com sucesso!" });
+    await additionalInformation.save();
+    res
+      .status(200)
+      .json({ msg: "Informação adicional cadastrada com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });
   }
 };
 
-exports.categoryPlanDelete = async (req, res) => {
+exports.additionalInformationDelete = async (req, res) => {
   const { id } = req.body;
   try {
-    await CategoryPlan.deleteOne({ _id: id });
-    res.status(200).json({ msg: "Categoria deletada com sucesso!" });
+    await AdditionalInformation.deleteOne({ _id: id });
+    res.status(200).json({ msg: "Informação adicional deletada com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }
