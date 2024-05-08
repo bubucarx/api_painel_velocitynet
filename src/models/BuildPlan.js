@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const Plans = mongoose.model("plans", {
-  name: String,
+const BuildPlan = mongoose.model("build_plan", {
+  nome: String,
   subtitle: String,
   status: {
     type: Boolean,

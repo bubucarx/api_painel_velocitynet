@@ -1,9 +1,10 @@
 const fs = require("fs");
 const path = require("path");
-const Plans = require("../models/Plans");
+const Plans = require("../models/Category");
+const Plan = require("../models/Plan");
 
 exports.plansGet = async (req, res) => {
-  const plans = await Plans.find({});
+  const plans = await Plan.find({});
   try {
     res.status(200).json(plans);
   } catch (error) {
@@ -11,40 +12,32 @@ exports.plansGet = async (req, res) => {
   }
 };
 
-exports.plansPost = async (req, res) => {
-  const file = req.file;
-  const name = req.file.originalname;
+exports.plansCreate = async (req, res) => {
+  const { nome, descricao, idCategoria, preco, complementar } = req.body;
 
-  const plans = new Plans({
-    name: name,
-  });
+  const images = req.files;
+  const arrayImages = [];
 
-  if (!file) {
-    res.status(422).json({ msg: "Imagem inválida" });
+  for (const image of images) {
+    arrayImages.push(image["filename"]);
   }
+
+  const logo = arrayImages[0];
+  const imageBase = arrayImages[1];
+
+  const plans = new Plan({
+    nome: nome,
+    imagem: logo,
+    planoBase: imageBase,
+    descricao: descricao,
+    idCategoria: idCategoria,
+    preco: preco,
+    complementar: complementar,
+  });
 
   try {
     await plans.save();
-    res.status(200).json({ msg: "Imagem salva" });
-  } catch (error) {
-    res.status(500).json({ msg: "Erro no servidor" });
-  }
-};
-
-exports.plansPatch = async (req, res) => {
-  const file = req.file;
-  const name = req.file.originalname;
-  const { id } = req.body;
-
-  if (!file) {
-    res.status(422).json({ msg: "Imagem inválida" });
-  }
-
-  try {
-    await Plans.updateOne({ _id: id }, { $set: { name: name } });
-    res.status(200).json({
-      msg: "Imagem alterada com sucesso",
-    });
+    res.status(200).json({ msg: "Plano cadastrado com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });
   }
@@ -53,9 +46,31 @@ exports.plansPatch = async (req, res) => {
 exports.plansDelete = async (req, res) => {
   const { id } = req.body;
   try {
-    await Plans.deleteOne({ _id: id });
-    res.status(200).json({ msg: "Imagem deletada com sucesso" });
+    await Plan.deleteOne({ _id: id });
+    res.status(200).json({ msg: "Plano deletado com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }
 };
+
+// exports.cardPlansPatch = async (req, res) => {
+//   const { id, name, tipoPlano, preco } = req.body;
+
+//   const file = "";
+
+//   if (req.file) {
+//     file = req.file.originalname;
+//   }
+
+//   try {
+//     await Plan.updateOne(
+//       { _id: id },
+//       { $set: { name: name, image: file, tipoPlano: tipoPlano, preco: preco } }
+//     );
+//     res.status(200).json({
+//       msg: "Card atualizado com sucesso!",
+//     });
+//   } catch (error) {
+//     res.status(500).json({ msg: "Erro no servidor" });
+//   }
+// };

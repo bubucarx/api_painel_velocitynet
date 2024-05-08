@@ -17,8 +17,12 @@ const loginController = require("./src/controllers/loginController");
 const descriptionController = require("./src/controllers/descriptionController");
 const offerController = require("./src/controllers/offerController");
 const tvController = require("./src/controllers/tvController");
+const categoryController = require("./src/controllers/categoryController");
 const plansController = require("./src/controllers/plansController");
-const cardPlansController = require("./src/controllers/cardPLansController");
+const additionalController = require("./src/controllers/additionalController");
+const categoryPlanController = require("./src/controllers/categoryPlanController");
+const cardPlanController = require("./src/controllers/cardPlanController");
+const additionalInformationController = require("./src/controllers/AdditionalInformation.dart");
 
 app.use(express.json());
 app.use(cors());
@@ -48,20 +52,20 @@ app.patch(
 ///////////////////////////////////////////////// SLIDER ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// PLANOS ///////////////////////////////////////////////////////////
-app.get("/api/v1/plans", plansController.plansGet);
+app.get("/api/v1/plans", categoryController.categoryGet);
 app.post(
   "/api/v1/plans",
   checkToken,
   upload.single("image"),
-  plansController.plansPost
+  categoryController.categoryPost
 );
 app.patch(
   "/api/v1/plans",
   checkToken,
   upload.single("image"),
-  plansController.plansPatch
+  categoryController.categoryPatch
 );
-app.delete("/api/v1/plans", checkToken, plansController.plansDelete);
+app.delete("/api/v1/plans", checkToken, categoryController.categoryDelete);
 ///////////////////////////////////////////////// PLANOS ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// LOGIN ///////////////////////////////////////////////////////////
@@ -119,16 +123,98 @@ app.patch(
 app.delete("/api/v1/tv", checkToken, tvController.tvDelete);
 ///////////////////////////////////////////////// TV ///////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////// CARD PLANO  ///////////////////////////////////////////////////////////
+///////////////////////////////////////////////// PLANO  ///////////////////////////////////////////////////////////
 
-app.get("/api/v1/card-plans", checkToken, cardPlansController.cardPlansGet);
+app.get("/api/v1/plans", checkToken, plansController.plansGet);
 app.post(
-  "/api/v1/card-plans/create",
+  "/api/v1/plans/create",
+  checkToken,
+  upload.array("images"),
+  plansController.plansCreate
+);
+app.delete("/api/v1/plans/delete", checkToken, plansController.plansDelete);
+
+// app.patch(
+//   "/api/v1/plans/patch",
+//   checkToken,
+//   upload.single("image"),
+//   plansController.cardPlansPatch
+// );
+///////////////////////////////////////////////// PLANO ///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////// ADDITIONAL ///////////////////////////////////////////////////////////
+app.get("/api/v1/additional", checkToken, additionalController.additionalGet);
+app.post(
+  "/api/v1/additional/create",
   checkToken,
   upload.single("image"),
-  cardPlansController.cardPlansCreate
+  additionalController.additionalCreate
 );
-///////////////////////////////////////////////// CARD PLANO ///////////////////////////////////////////////////////////
+app.delete(
+  "/api/v1/additional/delete",
+  checkToken,
+  additionalController.additionalDelete
+);
+
+////////////////////////AdditionalController//////////////////////// ADDITIONAL ///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////
+app.get(
+  "/api/v1/category-plan",
+  checkToken,
+  categoryPlanController.categoryPlanGet
+);
+
+app.post(
+  "/api/v1/category-plan/create",
+  checkToken,
+  upload.single("image"),
+  categoryPlanController.categoryPlanCreate
+);
+
+app.delete(
+  "/api/v1/category-plan/delete",
+  checkToken,
+  categoryPlanController.categoryPlanDelete
+);
+///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////// CARD PLAN ///////////////////////////////////////////////////////////
+app.get("/api/v1/card-plan", checkToken, cardPlanController.cardPlanGet);
+app.post(
+  "/api/v1/card-plan/create",
+  checkToken,
+  upload.single("image"),
+  cardPlanController.cardPlanCreate
+);
+app.delete(
+  "/api/v1/card-plan/delete",
+  checkToken,
+  cardPlanController.cardPlanDelete
+);
+///////////////////////////////////////////////// CARD PLAN ///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////// ADDITIONAL INFORMATION ///////////////////////////////////////////////////////////
+app.get(
+  "/api/v1/additional-information",
+  checkToken,
+  additionalInformationController.additionalInformationGet
+);
+
+app.post(
+  "/api/v1/additional-information/create",
+  checkToken,
+  upload.single("image"),
+  additionalInformationController.additionalInformationCreate
+);
+
+app.delete(
+  "/api/v1/additional-information/delete",
+  checkToken,
+  additionalInformationController.additionalInformationDelete
+);
+
+///////////////////////////////////////////////// ADDITIONAL INFORMATION ///////////////////////////////////////////////////////////
 
 mongoose
   .connect(process.env.URL_DB, {
