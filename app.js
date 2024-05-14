@@ -6,8 +6,11 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 
 const storage = require("./src/middleware/storage");
+const storageArray = require("./src/middleware/storageArray");
 
 const upload = multer({ storage });
+
+const uploadArray = multer({ storage: storageArray });
 
 const cors = require("cors");
 
@@ -50,23 +53,6 @@ app.patch(
   sliderController.sliderPatch
 );
 ///////////////////////////////////////////////// SLIDER ///////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////// PLANOS ///////////////////////////////////////////////////////////
-app.get("/api/v1/plans", categoryController.categoryGet);
-app.post(
-  "/api/v1/plans",
-  checkToken,
-  upload.single("image"),
-  categoryController.categoryPost
-);
-app.patch(
-  "/api/v1/plans",
-  checkToken,
-  upload.single("image"),
-  categoryController.categoryPatch
-);
-app.delete("/api/v1/plans", checkToken, categoryController.categoryDelete);
-///////////////////////////////////////////////// PLANOS ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// LOGIN ///////////////////////////////////////////////////////////
 app.post("/api/v1/login", loginController.login);
@@ -158,7 +144,7 @@ app.delete(
 
 ////////////////////////AdditionalController//////////////////////// ADDITIONAL ///////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////
+///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////////////////////
 app.get(
   "/api/v1/category-plan",
   checkToken,
@@ -172,6 +158,13 @@ app.post(
   categoryPlanController.categoryPlanCreate
 );
 
+app.post(
+  "/api/v1/category-plan/create-card",
+  checkToken,
+  uploadArray.array("images"),
+  categoryPlanController.categoryPlanCreateCard
+);
+
 app.delete(
   "/api/v1/category-plan/delete",
   checkToken,
@@ -180,11 +173,16 @@ app.delete(
 ///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// CARD PLAN ///////////////////////////////////////////////////////////
-app.get("/api/v1/card-plan", checkToken, cardPlanController.cardPlanGet);
+app.get(
+  "/api/v1/card-plan/get-all",
+  checkToken,
+  cardPlanController.cardPlanGetAll
+);
+app.post("/api/v1/card-plan", checkToken, cardPlanController.cardPlanGet);
 app.post(
   "/api/v1/card-plan/create",
   checkToken,
-  upload.single("image"),
+  uploadArray.array("image", 10),
   cardPlanController.cardPlanCreate
 );
 app.delete(

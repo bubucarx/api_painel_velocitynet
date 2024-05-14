@@ -29,6 +29,22 @@ exports.categoryPlanCreate = async (req, res) => {
   }
 };
 
+exports.categoryPlanCreateCard = async (req, res) => {
+  const { idCategory } = req.body;
+  const files = req.files;
+  try {
+    for (const file of files) {
+      await CategoryPlan.updateOne(
+        { _id: idCategory },
+        { $push: { images: file.filename } }
+      );
+    }
+    res.status(200).json({ msg: "Card cadastrado com sucesso!" });
+  } catch (error) {
+    res.status(500).json({ msg: "Erro no servidor" });
+  }
+};
+
 exports.categoryPlanDelete = async (req, res) => {
   const { id } = req.body;
   try {
