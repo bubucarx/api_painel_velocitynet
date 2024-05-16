@@ -1,12 +1,9 @@
-const fs = require("fs");
-const path = require("path");
-const Plans = require("../models/Category");
 const Plan = require("../models/Plan");
 
 exports.plansGet = async (req, res) => {
-  const plans = await Plan.find({});
+  const plan = await Plan.find({});
   try {
-    res.status(200).json(plans);
+    res.status(200).json(plan);
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }

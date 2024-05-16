@@ -13,6 +13,9 @@ const CategoryPlan = mongoose.model("category_plan", {
     type: Boolean,
     default: true,
   },
+  images: {
+    type: Schema.Types.Array,
+  },
 });
 
 module.exports = CategoryPlan;

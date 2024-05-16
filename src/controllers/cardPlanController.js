@@ -1,7 +1,17 @@
 const CardPlan = require("../models/CardPlan");
 
-exports.cardPlanGet = async (req, res) => {
+exports.cardPlanGetAll = async (req, res) => {
   const cardPlan = await CardPlan.find({});
+  try {
+    res.status(200).json(cardPlan);
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor " });
+  }
+};
+
+exports.cardPlanGet = async (req, res) => {
+  const { idCategory } = req.body;
+  const cardPlan = await CardPlan.find({ idCategory: idCategory });
   try {
     res.status(200).json(cardPlan);
   } catch (error) {
@@ -11,15 +21,15 @@ exports.cardPlanGet = async (req, res) => {
 
 exports.cardPlanCreate = async (req, res) => {
   const { idCategory } = req.body;
-  const file = req.file.filename;
-
-  const cardPlan = new CardPlan({
-    idCategory: idCategory,
-    imagem: file,
-  });
-
+  const files = req.files;
   try {
-    await cardPlan.save();
+    for (const file of files) {
+      const cardPlan = new CardPlan({
+        idCategory: idCategory,
+        imagem: file.filename,
+      });
+      await cardPlan.save();
+    }
     res.status(200).json({ msg: "Card cadastrado com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Erro no servidor" });

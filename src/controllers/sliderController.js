@@ -41,7 +41,7 @@ exports.sliderPost = async (req, res) => {
   const currentDate = new Date();
   const formattedCurrentDate = currentDate.toLocaleDateString("pt-BR");
   const file = req.file;
-  const image = req.file ? req.file.originalname : null;
+  const image = req.file.filename;
 
   const slider = new Slider({
     name: image,

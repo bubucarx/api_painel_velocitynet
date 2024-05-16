@@ -12,10 +12,12 @@ exports.additionalInformationGet = async (req, res) => {
 exports.additionalInformationCreate = async (req, res) => {
   const { nome, idPlan } = req.body;
   const image = req.file.filename;
+
+  console.log(image);
+
   const additionalInformation = new AdditionalInformation({
     nome: nome,
     image: image,
-    idPlan: idPlan,
   });
 
   try {
@@ -30,6 +32,7 @@ exports.additionalInformationCreate = async (req, res) => {
 
 exports.additionalInformationDelete = async (req, res) => {
   const { id } = req.body;
+  console.log(req.body);
   try {
     await AdditionalInformation.deleteOne({ _id: id });
     res.status(200).json({ msg: "Informação adicional deletada com sucesso!" });
@@ -38,19 +41,19 @@ exports.additionalInformationDelete = async (req, res) => {
   }
 };
 
-// exports.plansPatch = async (req, res) => {
-//   const file = req.file.originalname;
-//   const { id, name, tipoPlano, preco } = req.body;
+exports.plansPatch = async (req, res) => {
+  const image = req.file.filename;
+  const { id, name, tipoPlano, preco } = req.body;
 
-//   try {
-//     await Plans.updateOne(
-//       { _id: id },
-//       { $set: { name: name, image: file, tipoPlano: tipoPlano, preco: preco } }
-//     );
-//     res.status(200).json({
-//       msg: "Imagem alterada com sucesso",
-//     });
-//   } catch (error) {
-//     res.status(500).json({ msg: "Erro no servidor" });
-//   }
-// };
+  try {
+    await Plans.updateOne(
+      { _id: id },
+      { $set: { name: name, image: file, tipoPlano: tipoPlano, preco: preco } }
+    );
+    res.status(200).json({
+      msg: "Imagem alterada com sucesso",
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Erro no servidor" });
+  }
+};
