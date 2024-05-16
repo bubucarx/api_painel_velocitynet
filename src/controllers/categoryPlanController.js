@@ -55,19 +55,47 @@ exports.categoryPlanDelete = async (req, res) => {
   }
 };
 
-// exports.plansPatch = async (req, res) => {
-//   const file = req.file.originalname;
-//   const { id, name, tipoPlano, preco } = req.body;
+exports.categoryPlanDeleteCard = async (req, res) => {
+  const { cardName, idCategory } = req.body;
+  try {
+    await CategoryPlan.updateOne(
+      { _id: idCategory },
+      { $pull: { images: cardName } }
+    );
+    res.status(200).json({ msg: "Categoria deletada com sucesso!" });
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor " });
+  }
+};
 
-//   try {
-//     await Plans.updateOne(
-//       { _id: id },
-//       { $set: { name: name, image: file, tipoPlano: tipoPlano, preco: preco } }
-//     );
-//     res.status(200).json({
-//       msg: "Imagem alterada com sucesso",
-//     });
-//   } catch (error) {
-//     res.status(500).json({ msg: "Erro no servidor" });
-//   }
-// };
+exports.categoryPlanPatch = async (req, res) => {
+  const { id, nome, subTitulo, visualizacao, status } = req.body;
+
+  var file = "";
+
+  if (!req.file) {
+    file = undefined;
+  } else {
+    file = req.file.originalname;
+  }
+
+  try {
+    await CategoryPlan.updateOne(
+      { _id: id },
+      {
+        $set: {
+          nome: nome,
+          logo: file,
+          subTitulo: subTitulo,
+          visualizacao: visualizacao,
+          status: status,
+        },
+      }
+    );
+    res.status(200).json({
+      msg: "Categoria alterada com sucesso",
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Erro no servidor" });
+  }
+};

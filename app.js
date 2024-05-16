@@ -145,7 +145,7 @@ app.delete(
 ////////////////////////AdditionalController//////////////////////// ADDITIONAL ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////////////////////
-app.get(
+app.post(
   "/api/v1/category-plan",
   checkToken,
   categoryPlanController.categoryPlanGet
@@ -158,11 +158,24 @@ app.post(
   categoryPlanController.categoryPlanCreate
 );
 
-app.post(
+app.patch(
+  "/api/v1/category-plan/patch",
+  checkToken,
+  upload.single("image"),
+  categoryPlanController.categoryPlanPatch
+);
+
+app.patch(
   "/api/v1/category-plan/create-card",
   checkToken,
   uploadArray.array("images"),
   categoryPlanController.categoryPlanCreateCard
+);
+
+app.delete(
+  "/api/v1/category-plan/delete-card",
+  checkToken,
+  categoryPlanController.categoryPlanDeleteCard
 );
 
 app.delete(
