@@ -19,7 +19,7 @@ exports.sliderGet = async (req, res) => {
       res.status(200).json(slider);
     }
   } catch (error) {
-    res.status(500).json({ msg: "Error no servidor" });
+    res.status(500).json(error);
   }
 };
 
