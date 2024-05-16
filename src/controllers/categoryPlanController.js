@@ -76,7 +76,7 @@ exports.categoryPlanPatch = async (req, res) => {
   if (!req.file) {
     file = undefined;
   } else {
-    file = req.file.originalname;
+    file = req.file.filename;
   }
 
   try {
