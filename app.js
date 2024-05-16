@@ -111,14 +111,14 @@ app.delete("/api/v1/tv", checkToken, tvController.tvDelete);
 
 ///////////////////////////////////////////////// PLANO  ///////////////////////////////////////////////////////////
 
-app.get("/api/v1/plans", checkToken, plansController.plansGet);
-app.post(
-  "/api/v1/plans/create",
-  checkToken,
-  upload.array("images"),
-  plansController.plansCreate
-);
-app.delete("/api/v1/plans/delete", checkToken, plansController.plansDelete);
+// app.get("/api/v1/plans", checkToken, plansController.plansGet);
+// app.post(
+//   "/api/v1/plans/create",
+//   checkToken,
+//   upload.array("images"),
+//   plansController.plansCreate
+// );
+// app.delete("/api/v1/plans/delete", checkToken, plansController.plansDelete);
 
 // app.patch(
 //   "/api/v1/plans/patch",
