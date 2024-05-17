@@ -37,19 +37,27 @@ exports.additionalDelete = async (req, res) => {
   }
 };
 
-// exports.plansPatch = async (req, res) => {
-//   const file = req.file.originalname;
-//   const { id, name, tipoPlano, preco } = req.body;
+exports.additionalPatch = async (req, res) => {
+  const { id, nome, preco, status } = req.body;
 
-//   try {
-//     await Plans.updateOne(
-//       { _id: id },
-//       { $set: { nome: name, image: file, tipoPlano: tipoPlano, preco: preco } }
-//     );
-//     res.status(200).json({
-//       msg: "Imagem alterada com sucesso",
-//     });
-//   } catch (error) {
-//     res.status(500).json({ msg: "Erro no servidor" });
-//   }
-// };
+  const fileds = {};
+
+  if (!req.file) {
+    fileds.image = undefined;
+  } else {
+    fileds.image = req.file.filename;
+  }
+
+  fileds.nome = nome ?? undefined;
+  fileds.preco = preco ?? undefined;
+  fileds.status = status ?? undefined;
+
+  try {
+    await Additional.updateOne({ _id: id }, { $set: fileds });
+    res.status(200).json({
+      msg: "Benefício alterada com sucesso",
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Erro no servidor" });
+  }
+};

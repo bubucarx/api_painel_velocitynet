@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const AdditionalInformation = mongoose.model("additional_information", {
+const Complement = mongoose.model("complement", {
   nome: String,
   image: String,
   idPlan: {
     type: Schema.Types.ObjectId,
     ref: "plan",
+    default: null,
   },
   status: {
     type: Boolean,
@@ -14,4 +15,4 @@ const AdditionalInformation = mongoose.model("additional_information", {
   },
 });
 
-module.exports = AdditionalInformation;
+module.exports = Complement;

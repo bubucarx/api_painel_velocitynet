@@ -25,7 +25,7 @@ const plansController = require("./src/controllers/plansController");
 const additionalController = require("./src/controllers/additionalController");
 const categoryPlanController = require("./src/controllers/categoryPlanController");
 const cardPlanController = require("./src/controllers/cardPlanController");
-const additionalInformationController = require("./src/controllers/AdditionalInformation.dart");
+const ComplementController = require("./src/controllers/ComplementController");
 
 app.use(express.json());
 app.use(cors());
@@ -136,6 +136,12 @@ app.post(
   upload.single("image"),
   additionalController.additionalCreate
 );
+app.patch(
+  "/api/v1/additional/update",
+  checkToken,
+  upload.single("image"),
+  additionalController.additionalPatch
+);
 app.delete(
   "/api/v1/additional/delete",
   checkToken,
@@ -205,27 +211,31 @@ app.delete(
 // );
 // ///////////////////////////////////////////////// CARD PLAN ///////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////// ADDITIONAL INFORMATION ///////////////////////////////////////////////////////////
-app.get(
-  "/api/v1/additional-information",
-  checkToken,
-  additionalInformationController.additionalInformationGet
-);
+///////////////////////////////////////////////// COMPLEMENT INFORMATION ///////////////////////////////////////////////////////////
+app.get("/api/v1/complement", checkToken, ComplementController.complementGet);
 
 app.post(
-  "/api/v1/additional-information/create",
+  "/api/v1/complement/create",
   checkToken,
   upload.single("image"),
-  additionalInformationController.additionalInformationCreate
+  ComplementController.complementCreate
+);
+
+app.patch(
+  "/api/v1/complement/update",
+  checkToken,
+  upload.single("image"),
+
+  ComplementController.complementPatch
 );
 
 app.delete(
-  "/api/v1/additional-information/delete",
+  "/api/v1/complement/delete",
   checkToken,
-  additionalInformationController.additionalInformationDelete
+  ComplementController.complementDelete
 );
 
-///////////////////////////////////////////////// ADDITIONAL INFORMATION ///////////////////////////////////////////////////////////
+///////////////////////////////////////////////// COMPLEMENT INFORMATION ///////////////////////////////////////////////////////////
 
 mongoose
   .connect(process.env.URL_DB, {
