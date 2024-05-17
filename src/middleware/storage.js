@@ -15,9 +15,7 @@ const storage = multer.diskStorage({
     const nomeArquivo = file.originalname;
     const date = Date.now();
     const newName = `${nomeArquivo} ${date}`;
-    console.log(newName);
     const hashValue = createHash(newName);
-    console.log(hashValue);
     const type = file.mimetype.split("/")[1];
     const name = hashValue + "." + type;
     cb(null, name);
