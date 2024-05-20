@@ -111,21 +111,31 @@ app.delete("/api/v1/tv", checkToken, tvController.tvDelete);
 
 ///////////////////////////////////////////////// PLANO  ///////////////////////////////////////////////////////////
 
-// app.get("/api/v1/plans", checkToken, plansController.plansGet);
-// app.post(
-//   "/api/v1/plans/create",
-//   checkToken,
-//   upload.array("images"),
-//   plansController.plansCreate
-// );
-// app.delete("/api/v1/plans/delete", checkToken, plansController.plansDelete);
+app.get("/api/v1/plans", checkToken, plansController.plansGet);
+app.post(
+  "/api/v1/plans/create",
+  checkToken,
+  upload.array("images"),
+  plansController.plansCreate
+);
+app.delete("/api/v1/plans/delete", checkToken, plansController.plansDelete);
 
-// app.patch(
-//   "/api/v1/plans/patch",
-//   checkToken,
-//   upload.single("image"),
-//   plansController.cardPlansPatch
-// );
+app.patch("/api/v1/plans/update", checkToken, plansController.plansPatch);
+
+app.patch(
+  "/api/v1/plans/update-imagem",
+  upload.single("image"),
+  checkToken,
+  plansController.plansPatchImagem
+);
+
+app.patch(
+  "/api/v1/plans/update-plan-base",
+  upload.single("image"),
+  checkToken,
+  plansController.plansPatchPlanBase
+);
+
 ///////////////////////////////////////////////// PLANO ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// ADDITIONAL ///////////////////////////////////////////////////////////
@@ -148,7 +158,7 @@ app.delete(
   additionalController.additionalDelete
 );
 
-////////////////////////AdditionalController//////////////////////// ADDITIONAL ///////////////////////////////////////////////////////////
+////////////////////////ADDITIONAL//////////////////////// ADDITIONAL ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////////////////////
 app.get(

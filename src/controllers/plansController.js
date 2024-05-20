@@ -15,6 +15,12 @@ exports.plansCreate = async (req, res) => {
   const images = req.files;
   const arrayImages = [];
 
+  let jsonString = complementar;
+
+  jsonString = jsonString.trim();
+
+  let jsonObject = JSON.parse(jsonString);
+
   for (const image of images) {
     arrayImages.push(image["filename"]);
   }
@@ -29,9 +35,8 @@ exports.plansCreate = async (req, res) => {
     descricao: descricao,
     idCategoria: idCategoria,
     preco: preco,
-    complementar: complementar,
+    complementar: jsonObject,
   });
-
   try {
     await plans.save();
     res.status(200).json({ msg: "Plano cadastrado com sucesso!" });
@@ -43,31 +48,75 @@ exports.plansCreate = async (req, res) => {
 exports.plansDelete = async (req, res) => {
   const { id } = req.body;
   try {
-    await Plan.deleteOne({ _id: id });
+    const result = await Plan.deleteOne({ _id: id });
+    if (result.deletedCount == 0) {
+      return res.status(200).json({ msg: "Esse plano não existe" });
+    }
     res.status(200).json({ msg: "Plano deletado com sucesso!" });
   } catch (error) {
     res.status(500).json({ msg: "Error no servidor " });
   }
 };
 
-// exports.cardPlansPatch = async (req, res) => {
-//   const { id, name, tipoPlano, preco } = req.body;
+exports.plansPatch = async (req, res) => {
+  const { id, nome, descricao, preco, complementar } = req.body;
 
-//   const file = "";
+  const fileds = {};
 
-//   if (req.file) {
-//     file = req.file.originalname;
-//   }
+  fileds.nome = nome ?? undefined;
+  fileds.descricao = descricao ?? undefined;
+  fileds.preco = preco ?? undefined;
+  fileds.complementar = complementar ?? undefined;
 
-//   try {
-//     await Plan.updateOne(
-//       { _id: id },
-//       { $set: { name: name, image: file, tipoPlano: tipoPlano, preco: preco } }
-//     );
-//     res.status(200).json({
-//       msg: "Card atualizado com sucesso!",
-//     });
-//   } catch (error) {
-//     res.status(500).json({ msg: "Erro no servidor" });
-//   }
-// };
+  try {
+    const result = await Plan.updateOne({ _id: id }, { $set: fileds });
+    if (result.modifiedCount == 0) {
+      return res.status(200).json({ msg: "Esse plano não existe" });
+    }
+    res.status(200).json({
+      msg: "Plano atualizado com sucesso!",
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Erro no servidor" });
+  }
+};
+
+exports.plansPatchImagem = async (req, res) => {
+  const { id } = req.body;
+
+  const image = req.file.filename;
+  try {
+    const result = await Plan.updateOne(
+      { _id: id },
+      {
+        imagem: image,
+      }
+    );
+    if (result.modifiedCount == 0) {
+      return res.status(200).json({ msg: "Esse plano não existe" });
+    }
+    res.status(200).json({ msg: "Plano atualizado com sucesso!" });
+  } catch (error) {
+    res.status(500).json({ msg: "Erro no servidor" });
+  }
+};
+
+exports.plansPatchPlanBase = async (req, res) => {
+  const { id } = req.body;
+
+  const image = req.file.filename;
+  try {
+    const result = await Plan.updateOne(
+      { _id: id },
+      {
+        planoBase: image,
+      }
+    );
+    if (result.modifiedCount == 0) {
+      return res.status(200).json({ msg: "Esse plano não existe" });
+    }
+    res.status(200).json({ msg: "Plano atualizado com sucesso!" });
+  } catch (error) {
+    res.status(500).json({ msg: "Erro no servidor" });
+  }
+};

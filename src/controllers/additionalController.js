@@ -42,6 +42,10 @@ exports.additionalPatch = async (req, res) => {
 
   const fileds = {};
 
+  const newPrice = preco.replace(/[\sR\$]+/g, "");
+
+  const cleaned = newPrice.replace(/,/g, ".");
+
   if (!req.file) {
     fileds.image = undefined;
   } else {
@@ -49,7 +53,7 @@ exports.additionalPatch = async (req, res) => {
   }
 
   fileds.nome = nome ?? undefined;
-  fileds.preco = preco ?? undefined;
+  fileds.preco = cleaned ?? undefined;
   fileds.status = status ?? undefined;
 
   try {
@@ -58,6 +62,7 @@ exports.additionalPatch = async (req, res) => {
       msg: "Benefício alterada com sucesso",
     });
   } catch (error) {
-    res.status(500).json({ msg: "Erro no servidor" });
+    console.log(error);
+    res.status(500).json(error);
   }
 };
