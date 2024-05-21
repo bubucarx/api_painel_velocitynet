@@ -111,7 +111,7 @@ app.delete("/api/v1/tv", checkToken, tvController.tvDelete);
 
 ///////////////////////////////////////////////// PLANO  ///////////////////////////////////////////////////////////
 
-app.get("/api/v1/plans", checkToken, plansController.plansGet);
+app.get("/api/v1/plans", plansController.plansGet);
 app.post(
   "/api/v1/plans/create",
   checkToken,
