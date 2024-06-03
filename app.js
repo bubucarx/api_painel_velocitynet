@@ -26,6 +26,7 @@ const additionalController = require("./src/controllers/additionalController");
 const categoryPlanController = require("./src/controllers/categoryPlanController");
 const cardPlanController = require("./src/controllers/cardPlanController");
 const ComplementController = require("./src/controllers/ComplementController");
+const RouterController = require("./src/controllers/routerController");
 
 app.use(express.json());
 app.use(cors());
@@ -115,31 +116,36 @@ app.get("/api/v1/plans", plansController.plansGet);
 app.post(
   "/api/v1/plans/create",
   checkToken,
-  upload.array("images"),
+  uploadArray.array("images"),
   plansController.plansCreate
 );
 app.delete("/api/v1/plans/delete", checkToken, plansController.plansDelete);
 
-app.patch("/api/v1/plans/update", checkToken, plansController.plansPatch);
-
 app.patch(
-  "/api/v1/plans/update-imagem",
-  upload.single("image"),
+  "/api/v1/plans/update",
+  uploadArray.array("images"),
   checkToken,
-  plansController.plansPatchImagem
+  plansController.plansPatch
 );
 
-app.patch(
-  "/api/v1/plans/update-plan-base",
-  upload.single("image"),
-  checkToken,
-  plansController.plansPatchPlanBase
-);
+// app.patch(
+//   "/api/v1/plans/update-imagem",
+//   upload.single("image"),
+//   checkToken,
+//   plansController.plansPatchImagem
+// );
+
+// app.patch(
+//   "/api/v1/plans/update-plan-base",
+//   upload.single("image"),
+//   checkToken,
+//   plansController.plansPatchPlanBase
+// );
 
 ///////////////////////////////////////////////// PLANO ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// ADDITIONAL ///////////////////////////////////////////////////////////
-app.get("/api/v1/additional", checkToken, additionalController.additionalGet);
+app.get("/api/v1/additional", additionalController.additionalGet);
 app.post(
   "/api/v1/additional/create",
   checkToken,
@@ -201,28 +207,17 @@ app.delete(
 );
 ///////////////////////////////////////////////// CATEGORY PLAN ///////////////////////////////////////////////////////////
 
-// ///////////////////////////////////////////////// CARD PLAN ///////////////////////////////////////////////////////////
-// app.get(
-//   "/api/v1/card-plan/get-all",
-//   checkToken,
-//   cardPlanController.cardPlanGetAll
-// );
-// app.post("/api/v1/card-plan", checkToken, cardPlanController.cardPlanGet);
-// app.post(
-//   "/api/v1/card-plan/create",
-//   checkToken,
-//   uploadArray.array("image", 10),
-//   cardPlanController.cardPlanCreate
-// );
-// app.delete(
-//   "/api/v1/card-plan/delete",
-//   checkToken,
-//   cardPlanController.cardPlanDelete
-// );
-// ///////////////////////////////////////////////// CARD PLAN ///////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////// ROUTER ///////////////////////////////////////////////////////////
+app.get("/api/v1/router", RouterController.routerGet);
+app.post("/api/v1/router/create", checkToken, RouterController.routerCreate);
+app.delete("/api/v1/router/delete", checkToken, RouterController.routerDelete);
+app.patch("/api/v1/router/update", checkToken, RouterController.routerPatch);
+// ///////////////////////////////////////////////// ROUTER ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// COMPLEMENT INFORMATION ///////////////////////////////////////////////////////////
-app.get("/api/v1/complement", checkToken, ComplementController.complementGet);
+app.get("/api/v1/complement", ComplementController.complementGet);
+
+app.post("/api/v1/complement-get-id", ComplementController.complementGetByID);
 
 app.post(
   "/api/v1/complement/create",

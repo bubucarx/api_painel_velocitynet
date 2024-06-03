@@ -59,15 +59,43 @@ exports.plansDelete = async (req, res) => {
 };
 
 exports.plansPatch = async (req, res) => {
-  const { id, nome, descricao, preco, complementar } = req.body;
+  const { id, nome, descricao, preco, complementar, idCategoria } = req.body;
+  const images = req.files;
+  const arrayImages = [];
 
+  let newPrice = undefined;
+  let cleaned = undefined;
+
+  let jsonString = undefined;
+  let jsonObject = undefined;
+
+  if (preco != undefined) {
+    newPrice = preco.replace(/[\sR\$]+/g, "");
+    cleaned = newPrice.replace(/,/g, ".");
+  }
+
+  if (complementar != undefined) {
+    jsonString = complementar;
+    jsonString = jsonString.trim();
+    jsonObject = JSON.parse(jsonString);
+  }
+
+  for (const image of images) {
+    arrayImages.push(image["filename"]);
+  }
+
+  const logo = arrayImages[0];
+  const imageBase = arrayImages[1];
   const fileds = {};
-
   fileds.nome = nome ?? undefined;
   fileds.descricao = descricao ?? undefined;
-  fileds.preco = preco ?? undefined;
-  fileds.complementar = complementar ?? undefined;
+  fileds.preco = cleaned ?? undefined;
+  fileds.complementar = jsonObject ?? undefined;
+  fileds.imagem = logo ?? undefined;
+  fileds.planoBase = imageBase ?? undefined;
+  fileds.idCategoria = idCategoria ?? undefined;
 
+  console.log(fileds);
   try {
     const result = await Plan.updateOne({ _id: id }, { $set: fileds });
     if (result.modifiedCount == 0) {

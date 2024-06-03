@@ -10,13 +10,24 @@ exports.additionalGet = async (req, res) => {
 };
 
 exports.additionalCreate = async (req, res) => {
-  const { name, preco } = req.body;
+  const { name, preco, idPlan } = req.body;
   const file = req.file.filename;
+
+  // const jsonString = "";
+  // const jsonObject = "";
+  // if (idPlans != undefined) {
+  //   jsonString = idPlans;
+
+  //   jsonString = jsonString.trim();
+
+  //   jsonObject = JSON.parse(jsonString);
+  // }
 
   const additional = new Additional({
     nome: name,
     image: file,
     preco: preco,
+    idPlan: idPlan,
   });
 
   try {

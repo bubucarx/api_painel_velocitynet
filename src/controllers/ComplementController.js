@@ -1,5 +1,15 @@
 const Complement = require("../models/Complement");
 
+exports.complementGetByID = async (req, res) => {
+  const { idPlan } = req.body;
+  const complement = await Complement.find({ idPlan: idPlan });
+  try {
+    res.status(200).json(complement);
+  } catch (error) {
+    res.status(500).json({ msg: "Error no servidor " });
+  }
+};
+
 exports.complementGet = async (req, res) => {
   const complement = await Complement.find({});
   try {
@@ -13,9 +23,12 @@ exports.complementCreate = async (req, res) => {
   const { nome, idPlan } = req.body;
   const image = req.file.filename;
 
+  const id = idPlan ?? undefined;
+
   const complement = new Complement({
     nome: nome,
     image: image,
+    idPlan: id,
   });
 
   try {
