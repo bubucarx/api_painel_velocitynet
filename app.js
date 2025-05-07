@@ -27,6 +27,8 @@ const categoryPlanController = require("./src/controllers/categoryPlanController
 const cardPlanController = require("./src/controllers/cardPlanController");
 const ComplementController = require("./src/controllers/ComplementController");
 const RouterController = require("./src/controllers/routerController");
+//importando o as propriedades da pasta CandidateController
+const CandidateController = require("./src/controllers/CandidateController");
 
 app.use(express.json());
 app.use(cors());
@@ -241,6 +243,18 @@ app.delete(
 );
 
 ///////////////////////////////////////////////// COMPLEMENT INFORMATION ///////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////// CANDIDATE ////////////////////////////////////////////////////////////////////
+
+app.get("/api/v1/candidate/get", checkToken, CandidateController.candidateGet);
+
+app.post(
+  "/api/v1/cadidate/post",
+  upload.single("image"),
+  CandidateController.CandidatePost
+);
+
+////////////////////////////////////////////////////  CANDIDATE  ///////////////////////////////////////////////////////////////////
 
 mongoose
   .connect(process.env.URL_DB, {
