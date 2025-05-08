@@ -4,9 +4,10 @@ const { Schema } = mongoose;
 //objetos a ser recebido
 const Candidate = mongoose.model("candidate", {
   nome: String,
-  telefone: String,
+  telefone: String, 
   email: String,
   dataNascimento: Date,
+  funcaoEsc: String,
   anexo: String,
   dataEnvio: Date,
 });

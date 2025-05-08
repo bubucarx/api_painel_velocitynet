@@ -3,7 +3,7 @@ const CandidateModel = require("../models/Candidate");
 
 exports.candidateGet = async (req, res) => {
   const candidate = await CandidateModel.find();
-
+  
   try {
     res.status(200).json(candidate);
   } catch (error) {
@@ -12,7 +12,7 @@ exports.candidateGet = async (req, res) => {
 };
 
 exports.CandidatePost = async (req, res) => {
-  const { nome, dataNascimento, email, telefone } = req.body;
+  const { nome, dataNascimento, email, telefone,funcaoEsc } = req.body;
   const image = req.file ? req.file.filename : null;
   console.log(req.body);
 
@@ -21,6 +21,7 @@ exports.CandidatePost = async (req, res) => {
     telefone: telefone,
     email: email,
     dataNascimento: dataNascimento,
+    funcaoEsc: funcaoEsc,
     anexo: image,
     dataEnvio: Date.now(),
   });
