@@ -7,6 +7,7 @@ const Candidate = mongoose.model("candidate", {
   telefone: String, 
   email: String,
   dataNascimento: Date,
+  conteSobreVoce: String,
   funcaoEsc: String,
   anexo: String,
   dataEnvio: Date,
