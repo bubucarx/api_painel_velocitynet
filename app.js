@@ -246,7 +246,9 @@ app.delete(
 
 ////////////////////////////////////////////////////// CANDIDATE ////////////////////////////////////////////////////////////////////
 
-app.get("/api/v1/candidate/get", checkToken, CandidateController.candidateGet);
+app.get("/api/v1/candidate/get", 
+
+  CandidateController.candidateGet);
 
 app.post(
   "/api/v1/cadidate/post",
