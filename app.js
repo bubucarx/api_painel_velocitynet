@@ -251,7 +251,7 @@ app.get("/api/v1/candidate/get",
   CandidateController.candidateGet);
 
 app.post(
-  "/api/v1/cadidate/post",
+  "/api/v1/candidate/post",
   upload.single("image"),
   CandidateController.CandidatePost
   //tiago
