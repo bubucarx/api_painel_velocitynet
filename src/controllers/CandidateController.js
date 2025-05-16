@@ -12,7 +12,7 @@ exports.candidateGet = async (req, res) => {
 };
 
 exports.CandidatePost = async (req, res) => {
-  const { nome, dataNascimento, email, telefone,funcaoEsc, conteSobreVoce } = req.body;
+  const { nome, dataNascimento, email, telefone,funcaoEsc, conteSobre_voce } = req.body;
   const image = req.file ? req.file.filename : null;
   console.log(req.body);
 
@@ -23,7 +23,7 @@ exports.CandidatePost = async (req, res) => {
     dataNascimento: dataNascimento,
     funcaoEsc: funcaoEsc,
     anexo: image,
-    conteSobreVoce : conteSobreVoce,
+    conteSobreVoce: conteSobre_voce,
     dataEnvio: Date.now(),
   });
 
