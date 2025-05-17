@@ -13,7 +13,7 @@ exports.candidateGet = async (req, res) => {
 
 exports.CandidatePost = async (req, res) => {
   const { nome, dataNascimento, email, telefone,funcaoEsc, conteSobre_voce } = req.body;
-  const image = req.file ? req.file.filename : null;
+  const aneximage = req.file ? req.file.filename : null;
   console.log(req.body);
 
   const candidate = new CandidateModel({
@@ -22,7 +22,7 @@ exports.CandidatePost = async (req, res) => {
     email: email,
     dataNascimento: dataNascimento,
     funcaoEsc: funcaoEsc,
-    anexo: image,
+    anexo: aneximage,
     conteSobreVoce: conteSobre_voce,
     dataEnvio: Date.now(),
   });
