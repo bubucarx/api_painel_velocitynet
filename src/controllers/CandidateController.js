@@ -22,7 +22,7 @@ exports.CandidatePost = async (req, res) => {
     email: email,
     dataNascimento: dataNascimento,
     funcaoEsc: funcaoEsc,
-    anexo: aneximage,
+    anexo: image,
     conteSobreVoce: conteSobre_voce,
     dataEnvio: Date.now(),
   });
