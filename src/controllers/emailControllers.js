@@ -1,5 +1,3 @@
-const express = require('express');
-const router = express.Router();
 const multer = require('multer');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
@@ -14,7 +12,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-router.post('/send-email', upload.single('anexo'), async (req, res) => {
+const sendEmail = async (req, res) => {
   try {
     const { to, subject, text } = req.body;
 
@@ -40,6 +38,9 @@ router.post('/send-email', upload.single('anexo'), async (req, res) => {
     console.error('Erro ao enviar email:', error);
     res.status(500).json({ error: 'Erro ao enviar email' });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  sendEmail,
+  upload
+};
