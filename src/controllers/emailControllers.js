@@ -1,10 +1,5 @@
-const express = require('express');
-const router = express.Router();
-const multer = require('multer');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-
-const upload = multer({ dest: 'uploads/' });
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -14,32 +9,32 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-router.post('/api/v1/send-email', upload.single('anexo'), async (req, res) => {
+exports.sendEmail = async (req, res) => {
+  const { to, subject, text } = req.body;
+  const attachment = req.file ? req.file : null;
+
+  if (!to || !subject || !text) {
+    return res.status(400).json({ error: 'Faltam campos obrigatórios' });
+  }
+
+  const mailOptions = {
+    from: process.env.EMAIL_FROM,
+    to,
+    subject,
+    text,
+    attachments: attachment
+      ? [{
+          filename: attachment.originalname,
+          path: attachment.path
+        }]
+      : []
+  };
+
   try {
-    const { to, subject, text } = req.body;
-
-    if (!to || !subject || !text) {
-      return res.status(400).json({ error: 'Faltam campos obrigatórios' });
-    }
-
-    const mailOptions = {
-      from: process.env.EMAIL_FROM,
-      to,
-      subject,
-      text,
-      attachments: req.file ? [{
-        filename: req.file.originalname,
-        path: req.file.path
-      }] : []
-    };
-
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: 'Email enviado com sucesso!' });
-
+    res.status(200).json({ msg: 'Email enviado com sucesso!' });
   } catch (error) {
     console.error('Erro ao enviar email:', error);
-    res.status(500).json({ error: 'Erro ao enviar email' });
+    res.status(500).json({ msg: 'Erro ao enviar email' });
   }
-});
-
-module.exports = router;
+};
