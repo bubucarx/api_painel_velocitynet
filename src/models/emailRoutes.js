@@ -5,6 +5,6 @@ const upload = multer({ dest: 'uploads/' });
 
 const emailController = require('../controllers/emailController');
 
-router.post('/api/v1/send-email', upload.single('anexo'), emailController.sendEmail);
+router.post('/send-email', upload.single('anexo'), emailController.sendEmail);
 
 module.exports = router;
