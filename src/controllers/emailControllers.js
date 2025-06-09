@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-router.post('/', upload.single('anexo'), async (req, res) => {
+router.post('/send-email', upload.single('anexo'), async (req, res) => {
   try {
     const { to, subject, text } = req.body;
 
