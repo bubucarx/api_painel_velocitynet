@@ -261,7 +261,7 @@ app.post(
 
 ////////////////////////////////////////////////// email controllers ///////////////////////////////////////////////////////////////
 
-const emailRoutes = require('./src/models/emailRoutes');
+const emailRoutes = require('./src/routes/emailRoutes');
 app.use('/api/v1', emailRoutes);
 
 
