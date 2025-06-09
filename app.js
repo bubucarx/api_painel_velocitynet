@@ -263,10 +263,11 @@ app.post(
 const emailController = require('./src/controllers/emailControllers');
 
 app.post(
-  '/api/v1/send-email',
-  emailController.upload.single('anexo'),
+  "/api/v1/send-email",
+  emailController.upload.single("anexo"),
   emailController.sendEmail
 );
+
 
 ////////////////////////////////////////////////// email controllers ///////////////////////////////////////////////////////////////
 

@@ -1,3 +1,4 @@
+// src/controllers/emailControllers.js
 const multer = require('multer');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
