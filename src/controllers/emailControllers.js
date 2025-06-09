@@ -1,4 +1,5 @@
-// src/controllers/emailControllers.js
+const express = require('express');
+const router = express.Router();
 const multer = require('multer');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
@@ -13,7 +14,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const sendEmail = async (req, res) => {
+router.post('/send-email', upload.single('anexo'), async (req, res) => {
   try {
     const { to, subject, text } = req.body;
 
@@ -39,9 +40,6 @@ const sendEmail = async (req, res) => {
     console.error('Erro ao enviar email:', error);
     res.status(500).json({ error: 'Erro ao enviar email' });
   }
-};
+});
 
-module.exports = {
-  sendEmail,
-  upload
-};
+module.exports = router;
