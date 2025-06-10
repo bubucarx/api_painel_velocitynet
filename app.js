@@ -30,12 +30,10 @@ const RouterController = require("./src/controllers/routerController");
 //importando o as propriedades da pasta CandidateController
 const CandidateController = require("./src/controllers/CandidateController");
 
-app.use(express.json());
 const allowedOrigins = [
-  'https://seusite.com',
-  'https://app.seusite.com',
-  'http://localhost:3000',
-  'https://684882e0942c7812230421fa--wonderful-praline-e61fa4.netlify.app'
+  'http://localhost:52109',    
+  'https://seusite.com',     
+  'https://api.velocitynet.com.br' 
 ];
 
 app.use(cors({
@@ -43,13 +41,12 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Não permitido por CORS'));
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  credentials: true,
-  optionsSuccessStatus: 200
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 app.get("/api/v1/", (req, res) => {
