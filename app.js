@@ -32,10 +32,10 @@ const CandidateController = require("./src/controllers/CandidateController");
 
 app.use(express.json());
 const allowedOrigins = [
-  'https://684882e0942c7812230421fa--wonderful-praline-e61fa4.netlify.app',
+  'https://68488ff90af46c2e5cb640d4--wonderful-praline-e61fa4.netlify.app',
   'https://68488ff__-splendid-sorbet-89bec2.netlify.app',
-  'https://splendid-sorbet-89bec2.netlify.app', // Versão sem o hash temporário
-  'http://localhost:3000' // Para desenvolvimento local
+  'https://splendid-sorbet-89bec2.netlify.app',
+  'http://localhost:3000' 
 ];
 
 app.use(cors({
