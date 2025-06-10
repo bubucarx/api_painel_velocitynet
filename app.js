@@ -31,10 +31,25 @@ const RouterController = require("./src/controllers/routerController");
 const CandidateController = require("./src/controllers/CandidateController");
 
 app.use(express.json());
+const allowedOrigins = [
+  'https://seusite.com',
+  'https://app.seusite.com',
+  'http://localhost:3000',
+  'https://684882e0942c7812230421fa--wonderful-praline-e61fa4.netlify.app'
+];
+
 app.use(cors({
-  origin: '*',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Não permitido por CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 
 app.get("/api/v1/", (req, res) => {
