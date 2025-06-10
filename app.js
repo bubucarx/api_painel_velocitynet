@@ -30,36 +30,13 @@ const RouterController = require("./src/controllers/routerController");
 //importando o as propriedades da pasta CandidateController
 const CandidateController = require("./src/controllers/CandidateController");
 
-const allowedOrigins = [
-  'http://localhost:52109',
-  'https://seusite.com',
-  'https://api.velocitynet.com.br',
-  'https://684882e0942c7812230421fa--wonderful-praline-e61fa4.netlify.app',
-  'https://68488ff__-splendid-sorbet-89bec2.netlify.app',
-  'http://localhost:3000'
-];
-
+app.use(express.json());
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // Permitir requests sem origin (mobile apps, etc)
-    
-    if (allowedOrigins.some(allowedOrigin => 
-      origin.startsWith(allowedOrigin) || 
-      origin.includes(allowedOrigin.replace(/https?:\/\//, ''))
-    )) {
-      return callback(null, true);
-    }
-    
-    const msg = 'Origem não permitida por CORS';
-    console.warn(`Bloqueado por CORS: ${origin}`);
-    return callback(new Error(msg), false);
-  },
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  credentials: true,
-  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
-  optionsSuccessStatus: 200
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 
 app.get("/api/v1/", (req, res) => {
   res.status(200).json({ msg: "Bem vindo a nossa api!" });
