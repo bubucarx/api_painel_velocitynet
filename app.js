@@ -35,7 +35,6 @@ app.use(cors({
   origin: 'https://684882e0942c7812230421fa--wonderful-praline-e61fa4.netlify.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
 }));
 
 app.get("/api/v1/", (req, res) => {
