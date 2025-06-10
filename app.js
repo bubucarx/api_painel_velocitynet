@@ -31,7 +31,11 @@ const RouterController = require("./src/controllers/routerController");
 const CandidateController = require("./src/controllers/CandidateController");
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.get("/api/v1/", (req, res) => {
   res.status(200).json({ msg: "Bem vindo a nossa api!" });
