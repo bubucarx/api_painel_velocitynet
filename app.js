@@ -31,10 +31,30 @@ const RouterController = require("./src/controllers/routerController");
 const CandidateController = require("./src/controllers/CandidateController");
 
 app.use(express.json());
+const allowedOrigins = [
+  'https://684882e0942c7812230421fa--wonderful-praline-e61fa4.netlify.app',
+  'https://68488ff__-splendid-sorbet-89bec2.netlify.app',
+  'https://splendid-sorbet-89bec2.netlify.app', // Versão sem o hash temporário
+  'http://localhost:3000' // Para desenvolvimento local
+];
+
 app.use(cors({
-  origin: 'https://684882e0942c7812230421fa--wonderful-praline-e61fa4.netlify.app',
+  origin: function (origin, callback) {
+    // Permite requisições sem origem (como mobile apps ou curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.some(allowedOrigin => 
+      origin.includes(allowedOrigin.replace(/https?:\/\//, ''))
+    )) {
+      return callback(null, true);
+    }
+    
+    const msg = 'A política CORS não permite acesso a partir desta origem';
+    return callback(new Error(msg), false);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 app.get("/api/v1/", (req, res) => {
