@@ -27,11 +27,11 @@ exports.authRegister = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
-    return res.status(422).json({ msg: "O email e obrigatorio" });
+    return res.status(422).json({ msg: "O email é obrigatorio" });
   }
 
   if (!password) {
-    return res.status(422).json({ msg: "A senha e obrigatorio" });
+    return res.status(422).json({ msg: "A senha é obrigatorio" });
   }
 
   const salt = await bcrypt.genSalt(12);
@@ -39,7 +39,7 @@ exports.authRegister = async (req, res) => {
 
   const user = new User({
     email,
-    password: passwordHash,
+    password,
   });
 
   try {
@@ -79,5 +79,25 @@ exports.authLogin = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: error });
+  }
+};
+
+exports.authUser = async (req, res) => {
+  try {
+    const Users = await User.find();
+    res.status(200).json(Users);
+  } catch (error) {
+    res.status(500).json({ error: "Error ao buscar usuário." })
+  }
+}
+
+
+exports.authPassword = async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+    await User.findByIdAndUpdate(req.params.id, { password: hashedPassword });
+    res.status(200).json({ message: "Senha atualizada" });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao atualizar" });
   }
 };

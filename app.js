@@ -29,6 +29,8 @@ const ComplementController = require("./src/controllers/ComplementController");
 const RouterController = require("./src/controllers/routerController");
 //importando o as propriedades da pasta CandidateController
 const CandidateController = require("./src/controllers/CandidateController");
+const { combosImagesGet } = require("./src/controllers/combosController");
+const combosController = require("./src/controllers/combosController")
 
 app.use(express.json());
 app.use(cors({
@@ -43,6 +45,12 @@ app.get("/api/v1/", (req, res) => {
 });
 
 app.get("/api/v1/uploads/:nomeDoArquivo", sliderController.verArquivo);
+
+////////////////////////////////////////////////// COMBOS ///////////////////////////////////////////////////////////
+app.get('/api/v1/combos', combosController.combosImagesGet)
+app.post('/api/v1/combos', combosController.combosImagesPost)
+app.delete('/api/v1/combos/:id', combosController.combosImagesDelete)
+////////////////////////////////////////////////// COMBOS ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// SLIDER ///////////////////////////////////////////////////////////
 app.get("/api/v1/slider", sliderController.sliderGet);
@@ -66,6 +74,8 @@ app.patch(
 app.post("/api/v1/login", loginController.login);
 app.post("/api/v1/auth/login", loginController.authLogin);
 app.post("/api/v1/auth/register", loginController.authRegister);
+app.get("/api/v1/auth/users", loginController.authUser)
+app.put('/api/v1/auth/password/:id', loginController.authPassword)
 ///////////////////////////////////////////////// LOGIN ///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// CARD ///////////////////////////////////////////////////////////
