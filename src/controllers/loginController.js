@@ -39,7 +39,7 @@ exports.authRegister = async (req, res) => {
 
   const user = new User({
     email,
-    password,
+    password: passwordHash,
   });
 
   try {
@@ -87,10 +87,9 @@ exports.authUser = async (req, res) => {
     const Users = await User.find();
     res.status(200).json(Users);
   } catch (error) {
-    res.status(500).json({ error: "Error ao buscar usuário." })
+    res.status(500).json({ error: "Error ao buscar usuário." });
   }
-}
-
+};
 
 exports.authPassword = async (req, res) => {
   try {
