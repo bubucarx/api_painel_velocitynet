@@ -35,7 +35,7 @@ exports.CandidatePost = async (req, res) => {
     res.status(500).json({ msg: "Error no servidor " });
   }
 };
-
+///////////////////////////////////////////////
 exports.CandidateDelete = async (req, res) => {
   const { id } = req.body;
 
